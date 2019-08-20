@@ -8,6 +8,7 @@ const cors = require('cors');
 
 app.set('port', PORT)
 app.use(express.json())
+app.use(cors())
 
 app.get('/', (request, response) => {
 
@@ -81,14 +82,7 @@ app.delete('api/v1/palettes/:id', (request, response) => {
 })
 
 app.delete('api/v1/projects/:id', (request, response) => {
-  const { id } = request.params
-  database('projects').where("id", id).del()
-    .then(() => {
-      response.status(204)
-    })
-    .catch((error) => {
-      response.status(500).json({ error: error.message })
-    })
+  
 })
 
 // PATCH
