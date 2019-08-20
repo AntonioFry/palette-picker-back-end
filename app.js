@@ -1,7 +1,12 @@
+const enviroment = process.env.NODE_ENV || 'development';
+const configuration = require('./knexfile')[enviroment];
+const database = require('./knexfile')(configuration);
 const express = require('express');
 const app = express();
+const PORT = process.env.PORT || 3001;
+const cors = require('cors');
 
-app.set('port', process.env.PORT || 3001)
+app.set('port', PORT)
 app.use(express.json())
 
 app.get('/', (request, response) => {
@@ -55,7 +60,7 @@ app.get('api/v1/projects/:id', (request, response) => {
 // POST
 
 app.post('api/v1/palettes/:id', (request, response) => {
- 
+
 })
 
 app.post('api/v1/projects/:id', (request, response) => {
