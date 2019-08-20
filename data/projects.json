@@ -1,14 +1,14 @@
 [
   {
-    "project": "GameTime"
+    "projectName": "GameTime"
   },
   {
-    "project": "BYOB"
+    "projectName": "BYOB"
   },
   {
-    "project": "Whateverly"
+    "projectName": "Whateverly"
   },
   {
-    "project": "DogParty"
+    "projectName": "DogParty"
   }
 ]
