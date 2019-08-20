@@ -8,6 +8,7 @@ const cors = require('cors');
 
 app.set('port', PORT)
 app.use(express.json())
+app.use(cors())
 
 app.get('/', (request, response) => {
 
