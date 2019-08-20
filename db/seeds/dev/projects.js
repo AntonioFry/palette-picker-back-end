@@ -1,5 +1,6 @@
 const projects = require('');
 const palettes = require('');
+const testData = require('')
 
 const seedPalettes = (knex, palette) => {
   return knex('projects').where('id', palette.project_id).first()
@@ -37,4 +38,4 @@ exports.seed = function(knex) {
     .catch((error) => {
       console.log(`error in seeding data: ${error.message}`);
     })
-} 
+}
