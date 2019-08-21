@@ -45,17 +45,18 @@ app.get('api/v1/palettes/:id', (request, response) => {
 });
 
 app.get('api/v1/projects', (request, response) => {
-  const projects = database('projects').select()
-  if(projects.length){
+const name = request.query.name
+    if(name){
+      database('projects').where('name', name)
     .then(project => response.status(200).json(project))
     .catch(() => response.sendStatus(500));
   } else {
     database('projects').select()
-    .tnen(projectData => {
-      if(!projectData.length){
+    .then(project => {
+      if(!project.length){
         return res.status(200).send('No data found')
       }
-      return res.status(200).json(projectsData)
+      return res.status(200).json(project)
     })
     .catch(() => response.sendStatus(500));
   }
