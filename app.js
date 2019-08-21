@@ -129,10 +129,10 @@ app.delete('api/v1/projects/:id', (request, response) => {
       .then(() => {
         database('projects').where("id", id).del()
         .then(() =>
-          return response.status(200).send('Project deleted successfully')
+         response.status(200).send('Project deleted successfully')
           )
           .catch(() => response.sendStatus(500))
-      })  
+      })
     })
     .catch(() =>
       response.sendStatus(500));
@@ -149,12 +149,10 @@ app.patch('api/v1/projects/:id', (request, response) => {
 			return response.status(422).send(`Expected format: ${required}. You are missing ${param}.`);
 		}
   database('projects').where("id", id)
-  .then(project => return response.status(404).send('No data found'))
+  .then(project => response.status(404).send('No data found'))
   database('projects').where("id", id).update(project)
-  .then(() => return response.status(200).send('Project successfully updated'))
-  .catch(()=> return response.sendStatus(500))
-    }
-  .catch(()=> return response.sendStatus(500))
+  .then(() =>  response.status(200).send('Project successfully updated'))
+  .catch(()=> response.sendStatus(500))
 });
 
 app.patch('api/v1/palettes/:id', (request, response) => {
@@ -168,11 +166,12 @@ app.patch('api/v1/palettes/:id', (request, response) => {
   .then(response => {if(!response){
     return response.status(404).send('No data found')
   }
-  database('palettes').update(palettes, '*')
-  .then(() => return response.status(200).send('Palette successfully updated'))
-  .catch(()=> return response.sendStatus(500))
+  database('palettes').where('id', id).update(palettes, '*')
+  .then(() => response.status(200).send('Palette successfully updated'))
+  .catch(() => response.sendStatus(500))
 })
-  .catch(()=> return response.sendStatus(500))
+  .catch(() => response.sendStatus(500))
 });
+
 
 module.exports = app
