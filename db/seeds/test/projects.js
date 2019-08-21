@@ -1,5 +1,6 @@
 const projects = require('../../../data/projects');
 const randomColor = require('randomcolor');
+const testData = require('../../../data/testData')
 
 const seedPalettes = (knex, palette) => {
   return knex('projects').where('id', palette.project_id).first()

@@ -4,19 +4,24 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "start": "nodemon app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "supertest": "^4.0.2",
-    "jest": "^24.5.0",
     "cors": "^2.8.5",
+    "dotenv": "^8.1.0",
     "express": "^4.17.1",
+    "jest": "^24.5.0",
     "knex": "^0.19.2",
     "nodemon": "^1.19.1",
-    "pg": "^7.12.1"
+    "pg": "^7.12.1",
+    "randomcolor": "^0.5.4",
+    "supertest": "^4.0.2"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "babel-install": "2.1.0"
+  }
 }

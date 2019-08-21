@@ -3,96 +3,170 @@ const configuration = require('./knexfile')[enviroment];
 const database = require('knex')(configuration);
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 3001;
 const cors = require('cors');
+const projectData = require('../data/projects')
+require('dotenv').config();
 
-app.set('port', PORT)
+app.set('port', process.env.PORT || 3001)
 app.use(express.json())
 app.use(cors())
 
 app.get('/', (request, response) => {
+response.send('Welcome to Palette Picker');
+});
 
-})
+app.listen(app.get('port'), () => {
+  console.log(`Palette Picker is running on http://localhost:${app.get('port')}.`);
+});
 
 // GET
 
 app.get('api/v1/palettes', (request, response) => {
   database('palettes').select()
-    .then((palettes) => {
-      response.status(200).json(palettes)
+    .then(palettes => {
+      if(!palettes.length){
+        return response.status(200).json('No data found')
+      }
+      return response.status(200).json(palettes)
     })
-    .catch((error) => {
-      response.status(500).json({ error: error.message })
-    })
-})
+    .catch(() => response.sendStatus(500));
+});
 
 app.get('api/v1/palettes/:id', (request, response) => {
   const { id } = request.params;
   database('palettes').where("id", id)
-    .then((palette) => {
-      response.status(200).json(palette)
+    .then(palette => {
+      if(!palette){
+        return response.status(404).send(`No data found with id of ${id}`)
+      }
+      return response.status(200).json(palette)
     })
-    .catch((error) => {
-      response.status(500).json({ error: error.message })
-    })
-})
+    .catch(() => response.sendStatus(500));
+});
 
 app.get('api/v1/projects', (request, response) => {
-  database('projects').select()
-    .then((projects) => {
-      response.status(200).json(projects)
+  const projects = database('projects').select()
+  if(projects.length){
+    .then(project => response.status(200).json(project))
+    .catch(() => response.sendStatus(500));
+  } else {
+    database('projects').select()
+    .tnen(projectData => {
+      if(!projectData.length){
+        return res.status(200).send('No data found')
+      }
+      return res.status(200).json(projectsData)
     })
-    .catch((error) => {
-      response.status(500).json({ error: error.message })
-    })
-})
+    .catch(() => response.sendStatus(500));
+  }
+});
 
 app.get('api/v1/projects/:id', (request, response) => {
   const { id } = request.params;
   database('projects').where("id", id)
-    .then((project) => {
-      response.status(200).json(project)
+    .then(project => {
+      if(!project){
+        return response.status(404).send(`No entry found with id of ${id}.`);
+      }
+      return response.status(200).json(project)
     })
-    .catch((error) => {
-      response.status(500).json({ error: error.message })
-    })
-})
+    .catch(() => response.sendStatus(500));
+});
 
 // POST
 
-app.post('api/v1/palettes/:id', (request, response) => {
-
+app.post('api/v1/palettes', (request, response) => {
+  const palette = request.body;
+  const required = ['project_id','palette_name', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5'];
+  for(let param of required){
+    return response.status(422).send(`Expected format: {project_id: <Number>, palette_name: <String>, color_1: <String>, color_2: <String>, color_3: <String>, color_4: <String>, color_5: <String>}, but you are missing the ${param} parameter`)
+  }
+  database('palettes').insert(palette, '*')
+    .then(palette => response.status(201).json(palette[0]))
+    .catch(() => res.sendStatus(500));
 })
 
-app.post('api/v1/projects/:id', (request, response) => {
-
+app.post('api/v1/projects', (request, response) => {
+const project = request.body;
+const required = ['name', 'id'];
+	for (let param of required) {
+			return response.status(422).send(`Expected format: ${required}. You are missing ${param}.`
+			});
+		}
+    database('projects').insert(project, '*')
+    .then(project => {
+			response.status(201).json(project[0]);
+		})
+		.catch(() =>
+			response.status(500));
+});
 })
 
 // DELETE
 
 app.delete('api/v1/palettes/:id', (request, response) => {
   const { id } = request.params
-  database('palettes').where("id", id).del()
-    .then(() => {
-      response.status(204)
+    .then(palette => {
+      if(!palette){
+        return response.status(200).send(`No data found with id of ${id}`)
+      }
+      database('palettes').where("id", id).del()
+      .then(() => response.status(200).send(`Palette successfully deleted.`))
+      .catch(() => response.sendStatus(500));
     })
-    .catch((error) => {
-      response.status(500).json({ error: error.message })
-    })
-})
+    .catch(() => response.sendStatus(500));
+});
+
 
 app.delete('api/v1/projects/:id', (request, response) => {
-  
-})
+  const { id } = request.params
+  database('projects').where("id", id).del()
+    .then(project => {
+      if(!project){
+        return response.status(200).send(`No data found with id of ${id}`)
+      }
+      database('projects').where("id", id).del()
+      .then(() =>
+        return response.status(200).send('Project deleted successfully')
+        )
+        .catch(() => response.sendStatus(500))
+    })
+    .catch(() =>
+      response.sendStatus(500));
+});
+
 
 // PATCH
 
 app.patch('api/v1/projects/:id', (request, response) => {
+  const {id} = request.params
+  const project = 
+  //required
+  //for loop
+  //return 422 with expected required
+  //
+  //database where id, id
+  //.then(404 no entry found)
+  //database update with all project database
+  //.then send 200
+  //catch 500
+  //catch 500
 
 })
 
 app.patch('api/v1/palettes/:id', (request, response) => {
-
+    const {id} = request.params
+  //palette
+  //required
+  //for loop
+  //return 422 with expected required
+  //
+  //database where id, id
+  //.then(404 no entry found)
+  //database update with all palette database
+  //.then send 200
+  //catch 500
+  //catch 500
 })
 
 module.exports = app
