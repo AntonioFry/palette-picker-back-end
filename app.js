@@ -45,17 +45,18 @@ app.get('api/v1/palettes/:id', (request, response) => {
 });
 
 app.get('api/v1/projects', (request, response) => {
-  const projects = database('projects').select()
-  if(projects.length){
+const name = request.query.name
+    if(name){
+      database('projects').where('name', name)
     .then(project => response.status(200).json(project))
     .catch(() => response.sendStatus(500));
   } else {
     database('projects').select()
-    .tnen(projectData => {
-      if(!projectData.length){
+    .then(project => {
+      if(!project.length){
         return res.status(200).send('No data found')
       }
-      return res.status(200).json(projectsData)
+      return res.status(200).json(project)
     })
     .catch(() => response.sendStatus(500));
   }
@@ -90,8 +91,7 @@ app.post('api/v1/projects', (request, response) => {
 const project = request.body;
 const required = ['name', 'id'];
 	for (let param of required) {
-			return response.status(422).send(`Expected format: ${required}. You are missing ${param}.`
-			});
+			return response.status(422).send(`Expected format: ${required}. You are missing ${param}.`);
 		}
     database('projects').insert(project, '*')
     .then(project => {
@@ -125,11 +125,14 @@ app.delete('api/v1/projects/:id', (request, response) => {
       if(!project){
         return response.status(200).send(`No data found with id of ${id}`)
       }
-      database('projects').where("id", id).del()
-      .then(() =>
-        return response.status(200).send('Project deleted successfully')
-        )
-        .catch(() => response.sendStatus(500))
+      database('palettes').where({project_id: id}).del()
+      .then(() => {
+        database('projects').where("id", id).del()
+        .then(() =>
+          return response.status(200).send('Project deleted successfully')
+          )
+          .catch(() => response.sendStatus(500))
+      })  
     })
     .catch(() =>
       response.sendStatus(500));
@@ -140,33 +143,36 @@ app.delete('api/v1/projects/:id', (request, response) => {
 
 app.patch('api/v1/projects/:id', (request, response) => {
   const {id} = request.params
-  const project = 
-  //required
-  //for loop
-  //return 422 with expected required
-  //
-  //database where id, id
-  //.then(404 no entry found)
-  //database update with all project database
-  //.then send 200
-  //catch 500
-  //catch 500
-
-})
+  const project = request.body
+  const required = ['name'];
+  for (let param of required) {
+			return response.status(422).send(`Expected format: ${required}. You are missing ${param}.`);
+		}
+  database('projects').where("id", id)
+  .then(project => return response.status(404).send('No data found'))
+  database('projects').where("id", id).update(project)
+  .then(() => return response.status(200).send('Project successfully updated'))
+  .catch(()=> return response.sendStatus(500))
+    }
+  .catch(()=> return response.sendStatus(500))
+});
 
 app.patch('api/v1/palettes/:id', (request, response) => {
     const {id} = request.params
-  //palette
-  //required
-  //for loop
-  //return 422 with expected required
-  //
-  //database where id, id
-  //.then(404 no entry found)
-  //database update with all palette database
-  //.then send 200
-  //catch 500
-  //catch 500
+    const palette = request.body
+    const required = ['project_id','palette_name', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5'];
+    for(let param of required){
+      return response.status(422).send(`Expected format: {project_id: <Number>, palette_name: <String>, color_1: <String>, color_2: <String>, color_3: <String>, color_4: <String>, color_5: <String>}, but you are missing the ${param} parameter`)
+    }
+  database('palettes').where("id", id)
+  .then(response => {if(!response){
+    return response.status(404).send('No data found')
+  }
+  database('palettes').update(palettes, '*')
+  .then(() => return response.status(200).send('Palette successfully updated'))
+  .catch(()=> return response.sendStatus(500))
 })
+  .catch(()=> return response.sendStatus(500))
+});
 
 module.exports = app
