@@ -12,10 +12,8 @@ describe('App', () => {
       expect(res.status).toBe(200)
     })
   })
-
-
   
-  describe('GET api/v1/projects', () => {
+  describe('GET /api/v1/projects', () => {
     
     beforeEach(async () => {
       await database.seed.run()
@@ -37,7 +35,7 @@ describe('App', () => {
     });
   });
 
-  describe('GET /palettes', () => {
+  describe('GET /api/v1/palettes', () => {
     it('should return all palettes', async () => {
       const expectedPalettes = await database('palettes').select();
 
@@ -54,7 +52,7 @@ describe('App', () => {
     });
   });
 
-  describe('GET /projects/:id', () => {
+  describe('GET /api/v1/projects/:id', () => {
     it('should return a specific project', () => {
 
     });
