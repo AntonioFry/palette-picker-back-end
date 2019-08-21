@@ -4,8 +4,11 @@ const database = require('knex')(configuration);
 const express = require('express');
 const app = express();
 const cors = require('cors');
-// const projectData = require('../data/projects')
-require('dotenv').config();
+const projectData = require('./data/projects')
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
 
 app.set('port', process.env.PORT || 3001)
 app.use(express.json())
@@ -169,5 +172,6 @@ app.patch('/api/v1/palettes/:id', (request, response) => {
     })
     .catch(() => response.sendStatus(500))
 });
+
 
 module.exports = app
