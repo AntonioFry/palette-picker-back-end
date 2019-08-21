@@ -54,7 +54,7 @@ describe('App', () => {
 
   describe('GET /api/v1/projects/:id', () => {
     it('should return a specific project', () => {
-
+      
     });
 
     it('Happy Path: return a status of 200', () => {

@@ -25,7 +25,7 @@ app.get('/api/v1/palettes', (request, response) => {
   database('palettes').select()
     .then(palettes => {
       if(!palettes.length){
-        return response.status(200).json('No data found')
+        return response.status(404).json('No data found')
       }
       return response.status(200).json(palettes)
     })
@@ -48,7 +48,7 @@ app.get('/api/v1/projects', (request, response) => {
   database('projects').select()
     .then((projects) => {
       if (!projects.length) {
-        response.status(200).send('No data found');
+        response.status(404).send('No data found');
       } else {
         response.status(200).json(projects)
       }
@@ -70,7 +70,7 @@ app.get('/api/v1/projects/:id', (request, response) => {
 
 // POST
 
-app.post('api/v1/palettes', (request, response) => {
+app.post('/api/v1/palettes', (request, response) => {
   const palette = request.body;
   const required = ['project_id','palette_name', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5'];
   for(let param of required){
@@ -81,7 +81,7 @@ app.post('api/v1/palettes', (request, response) => {
     .catch(() => res.sendStatus(500));
 })
 
-app.post('api/v1/projects', (request, response) => {
+app.post('/api/v1/projects', (request, response) => {
 const project = request.body;
 const required = ['name', 'id'];
 for (let param of required) {
@@ -96,11 +96,11 @@ database('projects').insert(project, '*')
 
 // DELETE
 
-app.delete('api/v1/palettes/:id', (request, response) => {
+app.delete('/api/v1/palettes/:id', (request, response) => {
   const { id } = request.params
     .then(palette => {
       if(!palette){
-        return response.status(200).send(`No data found with id of ${id}`)
+        return response.status(404).send(`No data found with id of ${id}`)
       }
       database('palettes').where("id", id).del()
       .then(() => response.status(200).send(`Palette successfully deleted.`))
@@ -110,7 +110,7 @@ app.delete('api/v1/palettes/:id', (request, response) => {
 });
 
 
-app.delete('api/v1/projects/:id', (request, response) => {
+app.delete('/api/v1/projects/:id', (request, response) => {
   const { id } = request.params
   database('palettes').where("id", project_id).del()
     .then(() => {
@@ -131,7 +131,7 @@ app.delete('api/v1/projects/:id', (request, response) => {
 
 // PATCH
 
-app.patch('api/v1/projects/:id', (request, response) => {
+app.patch('/api/v1/projects/:id', (request, response) => {
   const {id} = request.params
   const project;
   //required
@@ -147,7 +147,7 @@ app.patch('api/v1/projects/:id', (request, response) => {
 
 })
 
-app.patch('api/v1/palettes/:id', (request, response) => {
+app.patch('/api/v1/palettes/:id', (request, response) => {
     const {id} = request.params
   //palette
   //required
