@@ -125,11 +125,14 @@ app.delete('api/v1/projects/:id', (request, response) => {
       if(!project){
         return response.status(200).send(`No data found with id of ${id}`)
       }
-      database('projects').where("id", id).del()
-      .then(() =>
-        return response.status(200).send('Project deleted successfully')
-        )
-        .catch(() => response.sendStatus(500))
+      database('palettes').where({project_id: id}).del()
+      .then(() => {
+        database('projects').where("id", id).del()
+        .then(() =>
+          return response.status(200).send('Project deleted successfully')
+          )
+          .catch(() => response.sendStatus(500))
+      })  
     })
     .catch(() =>
       response.sendStatus(500));
