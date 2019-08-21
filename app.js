@@ -11,12 +11,12 @@ app.use(express.json())
 app.use(cors())
 
 app.get('/', (request, response) => {
-
+  
 })
 
 // GET
 
-app.get('api/v1/palettes', (request, response) => {
+app.get('/api/v1/palettes', (request, response) => {
   database('palettes').select()
     .then((palettes) => {
       response.status(200).json(palettes)
@@ -26,7 +26,7 @@ app.get('api/v1/palettes', (request, response) => {
     })
 })
 
-app.get('api/v1/palettes/:id', (request, response) => {
+app.get('/api/v1/palettes/:id', (request, response) => {
   const { id } = request.params;
   database('palettes').where("id", id)
     .then((palette) => {
@@ -37,7 +37,7 @@ app.get('api/v1/palettes/:id', (request, response) => {
     })
 })
 
-app.get('api/v1/projects', (request, response) => {
+app.get('/api/v1/projects', (request, response) => {
   database('projects').select()
     .then((projects) => {
       response.status(200).json(projects)
@@ -47,7 +47,7 @@ app.get('api/v1/projects', (request, response) => {
     })
 })
 
-app.get('api/v1/projects/:id', (request, response) => {
+app.get('/api/v1/projects/:id', (request, response) => {
   const { id } = request.params;
   database('projects').where("id", id)
     .then((project) => {

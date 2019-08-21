@@ -1,4 +1,4 @@
-const supertest = require('supertest');
+const request = require('supertest');
 const app = require('./app');
 const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile') [environment];
@@ -31,14 +31,14 @@ describe('App', () => {
     });
 
     it('Happy Path: return a status of 200', async () => {
-        const response = await request(app).get('api/v1/projects');
+        const response = await request(app).get('/api/v1/projects');
 
         expect(response.status).toBe(200);
     });
   });
 
   describe('GET /palettes', () => {
-    it('should return all palettes', () => {
+    it('should return all palettes', async () => {
       const expectedPalettes = await database('palettes').select();
 
       const response = await request(app).get('/api/v1/palettes');
@@ -47,8 +47,8 @@ describe('App', () => {
       expect(palettes).toEqual(expectedPalettes);
     });
 
-    it('Happy Path: return a status of 200', () => {
-      const response = await request(app).get('api/v1/palettes');
+    it('Happy Path: return a status of 200', async () => {
+      const response = await request(app).get('/api/v1/palettes');
 
       expect(response.status).toBe(200);
     });
@@ -62,7 +62,7 @@ describe('App', () => {
     it('Happy Path: return a status of 200', () => {
 
     });
-    
+
   });
 
   describe('GET /palette/:id', () => {
