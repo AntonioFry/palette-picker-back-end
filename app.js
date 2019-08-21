@@ -1,6 +1,6 @@
 const enviroment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[enviroment];
-const database = require('./knexfile')(configuration);
+const database = require('knex')(configuration);
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -94,3 +94,5 @@ app.patch('api/v1/projects/:id', (request, response) => {
 app.patch('api/v1/palettes/:id', (request, response) => {
 
 })
+
+module.exports = app
