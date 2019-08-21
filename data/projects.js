@@ -1,4 +1,4 @@
-[
+const projects = [
   {
     "projectName": "GameTime"
   },
@@ -12,3 +12,5 @@
     "projectName": "DogParty"
   }
 ]
+
+module.exports = projects;

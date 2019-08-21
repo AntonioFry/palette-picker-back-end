@@ -9,6 +9,7 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 
+
 app.set('port', process.env.PORT || 3001)
 app.use(express.json())
 app.use(cors())
@@ -118,24 +119,6 @@ app.delete('/api/v1/palettes/:id', (request, response) => {
 
 app.delete('/api/v1/projects/:id', (request, response) => {
   const { id } = request.params
-<<<<<<< HEAD
-  database('projects').where("id", id).del()
-    .then(project => {
-      if(!project){
-        return response.status(200).send(`No data found with id of ${id}`)
-      }
-      database('palettes').where({project_id: id}).del()
-      .then(() => {
-        database('projects').where("id", id).del()
-        .then(() =>
-         response.status(200).send('Project deleted successfully')
-          )
-          .catch(() => response.sendStatus(500))
-      })
-    })
-    .catch(() =>
-      response.sendStatus(500));
-=======
   database('palettes').where("id", project_id).del()
     .then(() => {
       database('projects').where("id", id).del()
@@ -147,7 +130,6 @@ app.delete('/api/v1/projects/:id', (request, response) => {
           }
         })
         .catch(() => response.sendStatus(500))
->>>>>>> 05ccd8bc5ee018b78ed95181cafb655bd50d69a8
 });
 
 
@@ -160,14 +142,6 @@ app.patch('/api/v1/projects/:id', (request, response) => {
   
   for (let param of required) {
 			return response.status(422).send(`Expected format: ${required}. You are missing ${param}.`);
-<<<<<<< HEAD
-		}
-  database('projects').where("id", id)
-  .then(project => response.status(404).send('No data found'))
-  database('projects').where("id", id).update(project)
-  .then(() =>  response.status(200).send('Project successfully updated'))
-  .catch(()=> response.sendStatus(500))
-=======
   }
   
   database('projects').where("id", id).update(project)
@@ -179,7 +153,6 @@ app.patch('/api/v1/projects/:id', (request, response) => {
     }
   })
   .catch(() => response.sendStatus(500))
->>>>>>> 05ccd8bc5ee018b78ed95181cafb655bd50d69a8
 });
 
 app.patch('/api/v1/palettes/:id', (request, response) => {
@@ -189,17 +162,6 @@ app.patch('/api/v1/palettes/:id', (request, response) => {
     for(let param of required){
       return response.status(422).send(`Expected format: {project_id: <Number>, palette_name: <String>, color_1: <String>, color_2: <String>, color_3: <String>, color_4: <String>, color_5: <String>}, but you are missing the ${param} parameter`)
     }
-<<<<<<< HEAD
-  database('palettes').where("id", id)
-  .then(response => {if(!response){
-    return response.status(404).send('No data found')
-  }
-  database('palettes').where('id', id).update(palettes, '*')
-  .then(() => response.status(200).send('Palette successfully updated'))
-  .catch(() => response.sendStatus(500))
-})
-  .catch(() => response.sendStatus(500))
-=======
   database('palettes').where("id", id).update(palette)
     .then(palette => {
       if (!palette) {
@@ -209,7 +171,6 @@ app.patch('/api/v1/palettes/:id', (request, response) => {
       }
     })
     .catch(() => response.sendStatus(500))
->>>>>>> 05ccd8bc5ee018b78ed95181cafb655bd50d69a8
 });
 
 
