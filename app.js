@@ -4,7 +4,7 @@ const database = require('knex')(configuration);
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const projectData = require('../data/projects')
+// const projectData = require('../data/projects')
 require('dotenv').config();
 
 app.set('port', process.env.PORT || 3001)
