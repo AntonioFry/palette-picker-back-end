@@ -88,7 +88,8 @@ app.post('/api/v1/projects', (request, response) => {
 const project = request.body;
 const required = ['name', 'id'];
 for (let param of required) {
-	return response.status(422).send(`Expected format: ${required}. You are missing ${param}.`)
+		return response.status(422).send(`Expected format: ${required}. You are missing ${param}.`)
+
 };
 database('projects').insert(project, '*')
   .then(project => {
@@ -126,7 +127,6 @@ app.delete('/api/v1/projects/:id', (request, response) => {
           }
         })
         .catch(() => response.sendStatus(500))
-    })
 });
 
 
@@ -153,7 +153,7 @@ app.patch('/api/v1/projects/:id', (request, response) => {
 });
 
 app.patch('/api/v1/palettes/:id', (request, response) => {
-    const { id } = request.params
+    const {id} = request.params
     const palette = request.body
     const required = ['project_id','palette_name', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5'];
     for(let param of required){
