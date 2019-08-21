@@ -21,62 +21,59 @@ app.listen(app.get('port'), () => {
 
 // GET
 
-app.get('api/v1/palettes', (request, response) => {
+app.get('/api/v1/palettes', (request, response) => {
   database('palettes').select()
     .then(palettes => {
       if(!palettes.length){
-        return response.status(200).json('No data found')
+        return response.status(404).json('No data found')
+      } else {
+        return response.status(200).json(palettes)
       }
-      return response.status(200).json(palettes)
     })
     .catch(() => response.sendStatus(500));
 });
 
-app.get('api/v1/palettes/:id', (request, response) => {
+app.get('/api/v1/palettes/:id', (request, response) => {
   const { id } = request.params;
   database('palettes').where("id", id)
     .then(palette => {
       if(!palette){
-        return response.status(404).send(`No data found with id of ${id}`)
+        return response.status(404).send(`No data found with id of ${id}`);
+      } else {
+        return response.status(200).json(palette);
       }
-      return response.status(200).json(palette)
     })
     .catch(() => response.sendStatus(500));
 });
 
-app.get('api/v1/projects', (request, response) => {
-const name = request.query.name
-    if(name){
-      database('projects').where('name', name)
-    .then(project => response.status(200).json(project))
-    .catch(() => response.sendStatus(500));
-  } else {
-    database('projects').select()
-    .then(project => {
-      if(!project.length){
-        return res.status(200).send('No data found')
+app.get('/api/v1/projects', (request, response) => {
+  database('projects').select()
+    .then((projects) => {
+      if (!projects.length) {
+        response.status(404).send('No data found');
+      } else {
+        response.status(200).json(projects)
       }
-      return res.status(200).json(project)
     })
     .catch(() => response.sendStatus(500));
-  }
 });
 
-app.get('api/v1/projects/:id', (request, response) => {
+app.get('/api/v1/projects/:id', (request, response) => {
   const { id } = request.params;
   database('projects').where("id", id)
     .then(project => {
       if(!project){
         return response.status(404).send(`No entry found with id of ${id}.`);
+      } else {
+        return response.status(200).json(project);
       }
-      return response.status(200).json(project)
     })
     .catch(() => response.sendStatus(500));
 });
 
 // POST
 
-app.post('api/v1/palettes', (request, response) => {
+app.post('/api/v1/palettes', (request, response) => {
   const palette = request.body;
   const required = ['project_id','palette_name', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5'];
   for(let param of required){
@@ -87,39 +84,39 @@ app.post('api/v1/palettes', (request, response) => {
     .catch(() => res.sendStatus(500));
 })
 
-app.post('api/v1/projects', (request, response) => {
+app.post('/api/v1/projects', (request, response) => {
 const project = request.body;
 const required = ['name', 'id'];
-	for (let param of required) {
-			return response.status(422).send(`Expected format: ${required}. You are missing ${param}.`);
-		}
-    database('projects').insert(project, '*')
-    .then(project => {
-			response.status(201).json(project[0]);
-		})
-		.catch(() =>
-			response.status(500));
+for (let param of required) {
+		return response.status(422).send(`Expected format: ${required}. You are missing ${param}.`)
+
+};
+database('projects').insert(project, '*')
+  .then(project => {
+	  response.status(201).json(project[0]);
+  })
+  .catch(() => response.sendStatus(500))
 });
-})
 
 // DELETE
 
-app.delete('api/v1/palettes/:id', (request, response) => {
+app.delete('/api/v1/palettes/:id', (request, response) => {
   const { id } = request.params
-    .then(palette => {
+  database('palettes').where("id", id).del()
+    .then(() => { 
       if(!palette){
-        return response.status(200).send(`No data found with id of ${id}`)
+        return response.status(404).send(`No data found with id of ${id}`);
+      } else {
+        response.status(200).send(`Palette successfully deleted.`);
       }
-      database('palettes').where("id", id).del()
-      .then(() => response.status(200).send(`Palette successfully deleted.`))
-      .catch(() => response.sendStatus(500));
     })
     .catch(() => response.sendStatus(500));
 });
 
 
-app.delete('api/v1/projects/:id', (request, response) => {
+app.delete('/api/v1/projects/:id', (request, response) => {
   const { id } = request.params
+<<<<<<< HEAD
   database('projects').where("id", id).del()
     .then(project => {
       if(!project){
@@ -136,32 +133,61 @@ app.delete('api/v1/projects/:id', (request, response) => {
     })
     .catch(() =>
       response.sendStatus(500));
+=======
+  database('palettes').where("id", project_id).del()
+    .then(() => {
+      database('projects').where("id", id).del()
+        .then(project => {
+          if(!project) {
+            return response.status(404).send(`No data found with id of ${id}`)
+          } else {
+            return response.status(204).send('Project deleted successfully')
+          }
+        })
+        .catch(() => response.sendStatus(500))
+>>>>>>> 05ccd8bc5ee018b78ed95181cafb655bd50d69a8
 });
 
 
 // PATCH
 
-app.patch('api/v1/projects/:id', (request, response) => {
+app.patch('/api/v1/projects/:id', (request, response) => {
   const {id} = request.params
   const project = request.body
   const required = ['name'];
+  
   for (let param of required) {
 			return response.status(422).send(`Expected format: ${required}. You are missing ${param}.`);
+<<<<<<< HEAD
 		}
   database('projects').where("id", id)
   .then(project => response.status(404).send('No data found'))
   database('projects').where("id", id).update(project)
   .then(() =>  response.status(200).send('Project successfully updated'))
   .catch(()=> response.sendStatus(500))
+=======
+  }
+  
+  database('projects').where("id", id).update(project)
+  .then(project => {
+    if (!project) {
+      response.status(404).send('No data found')
+    } else {
+      response.status(200).send('Project successfully updated')
+    }
+  })
+  .catch(() => response.sendStatus(500))
+>>>>>>> 05ccd8bc5ee018b78ed95181cafb655bd50d69a8
 });
 
-app.patch('api/v1/palettes/:id', (request, response) => {
+app.patch('/api/v1/palettes/:id', (request, response) => {
     const {id} = request.params
     const palette = request.body
     const required = ['project_id','palette_name', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5'];
     for(let param of required){
       return response.status(422).send(`Expected format: {project_id: <Number>, palette_name: <String>, color_1: <String>, color_2: <String>, color_3: <String>, color_4: <String>, color_5: <String>}, but you are missing the ${param} parameter`)
     }
+<<<<<<< HEAD
   database('palettes').where("id", id)
   .then(response => {if(!response){
     return response.status(404).send('No data found')
@@ -171,6 +197,17 @@ app.patch('api/v1/palettes/:id', (request, response) => {
   .catch(() => response.sendStatus(500))
 })
   .catch(() => response.sendStatus(500))
+=======
+  database('palettes').where("id", id).update(palette)
+    .then(palette => {
+      if (!palette) {
+        response.status(404).send('No data found')
+      } else {
+        response.status(200).send('Project successfully updated')
+      }
+    })
+    .catch(() => response.sendStatus(500))
+>>>>>>> 05ccd8bc5ee018b78ed95181cafb655bd50d69a8
 });
 
 
