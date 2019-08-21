@@ -6,43 +6,65 @@ const database = require('knex')(configuration);
 
 describe('App', () => {
 
-  beforeEach(async () => {
-    await database.seed.run()
+  describe('init', () => {
+    it('should return a 200 status', async () => {
+      const res = await request(app).get('/')
+      expect(res.status).toBe(200)
+    })
   })
 
+
+  
   describe('GET api/v1/projects', () => {
+    
+    beforeEach(async () => {
+      await database.seed.run()
+    })
+    
     it('should return all projects', async () => {
       const expectedProjects = await database('projects').select();
-      const response = await request(app).get('/api/v1/project');
-
+      
+      const response = await request(app).get('/api/v1/projects');
       const projects = response.body;
 
       expect(projects).toEqual(expectedProjects);
     });
 
     it('Happy Path: return a status of 200', async () => {
-        const response = await request(app).get('/projects');
+        const response = await request(app).get('api/v1/projects');
 
         expect(response.status).toBe(200);
     });
   });
+
   describe('GET /palettes', () => {
     it('should return all palettes', () => {
-      
+      const expectedPalettes = await database('palettes').select();
+
+      const response = await request(app).get('/api/v1/palettes');
+      const palettes = response.body;
+
+      expect(palettes).toEqual(expectedPalettes);
     });
 
     it('Happy Path: return a status of 200', () => {
+      const response = await request(app).get('api/v1/palettes');
 
+      expect(response.status).toBe(200);
     });
   });
+
   describe('GET /projects/:id', () => {
     it('should return a specific project', () => {
 
     });
+
     it('Happy Path: return a status of 200', () => {
 
     });
+    
   });
+
   describe('GET /palette/:id', () => {
     it('should return a specific palette', () => {
 
@@ -51,6 +73,7 @@ describe('App', () => {
 
     });
   });
+
   describe('POST /project', () => {
     it('should post a new project', () => {
 
@@ -62,6 +85,7 @@ describe('App', () => {
 
     });
   });
+
   describe('POST /palette', () => {
     it('should post a new palette', () => {
 
@@ -73,6 +97,7 @@ describe('App', () => {
 
     });
   });
+
   describe('DELETE /project', () => {
     it('should delete a given project', () => {
 
@@ -96,6 +121,7 @@ describe('App', () => {
 
     });
   });
+
   describe('Patch /project', () => {
     it('should update a project', () => {
 
@@ -107,6 +133,7 @@ describe('App', () => {
 
     });
   });
+
   describe('Patch /palette', () => {
     it('should update a palette', () => {
 
@@ -118,4 +145,5 @@ describe('App', () => {
 
     });
   });
+
 });
