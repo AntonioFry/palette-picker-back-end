@@ -92,7 +92,7 @@ describe('App', () => {
         }
 
         const response = await request(app).post('/api/v1/projects').send(newProject);
-        const projects = await database('projects').where('name', response.body.name).select();
+        const projects = await database('projects').where('id', response.body[0]).select();
         const project = projects[0];
 
         expect(project.name).toEqual(newProject.name);
@@ -106,47 +106,61 @@ describe('App', () => {
 
         expect(response.status).toBe(201)
       });
-      it('Sad Path: return a status of 422', () => {
-  
+      it('Sad Path: return a status of 422', async () => {
+        const newProject = {
+          
+        }
+
+        const response = await request(app).post('/api/v1/projects').send(newProject);
+
+        expect(response.status).toBe(422)
       });
     });
   
     describe('POST /api/v1/palettes', () => {
       it('should post a new palette', async () => {
-        // const newPalette = {
-        //   project_id: 4,
-        //   palette_name: "Plain Colors",
-        //   color_1: "#800000",
-        //   color_2: "#FC1501",
-        //   color_3: "#F87531",
-        //   color_4: "#FF8000",
-        //   color_5: "#FFCC11"
-        // }
+        const newPalette = {
+          palette_name: "Plain Colors",
+          color_1: "#800000",
+          color_2: "#FC1501",
+          color_3: "#F87531",
+          color_4: "#FF8000",
+          color_5: "#FFCC11"
+        }
 
-        // const response = await request(app).post('/api/v1/palettes').send(newPalette);
-        // console.log(response.body)
-        // const palettes = await database('palettes').where('name', response.body.name).select();
-        // const palette = palettes[0];
+        const response = await request(app).post('/api/v1/palettes').send(newPalette);
+        console.log(response.body)
+        const palettes = await database('palettes').where('id', response.body[0]).select();
+        const palette = palettes[0];
 
-        // expect(palette.palette_name).toEqual(newPalette.palette_name);
+        expect(palette.palette_name).toEqual(newPalette.palette_name);
       });
       it('Happy Path: return a status of 201', async () => {
-        // const newPalette = {
-        //   project_id: 4,
-        //   palette_name: "Plain Colors",
-        //   color_1: "#800000",
-        //   color_2: "#FC1501",
-        //   color_3: "#F87531",
-        //   color_4: "#FF8000",
-        //   color_5: "#FFCC11"
-        // }
+        const newPalette = {
+          palette_name: "Plain Colors",
+          color_1: "#800000",
+          color_2: "#FC1501",
+          color_3: "#F87531",
+          color_4: "#FF8000",
+          color_5: "#FFCC11"
+        }
 
-        // const response = await request(app).post('/api/v1/palettes').send(newPalette);
+        const response = await request(app).post('/api/v1/palettes').send(newPalette);
 
-        // expect(response.status).toBe(201);
+        expect(response.status).toBe(201);
       });
-      it('Sad Path: return a status of 422', () => {
-  
+      it('Sad Path: return a status of 422', async () => {
+        const newPalette = {
+          palette_name: "Plain Colors",
+          color_2: "#FC1501",
+          color_3: "#F87531",
+          color_4: "#FF8000",
+          color_5: "#FFCC11"
+        }
+
+        const response = await request(app).post('/api/v1/palettes').send(newPalette);
+
+        expect(response.status).toBe(422);
       });
     });
   

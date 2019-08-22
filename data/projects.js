@@ -1,12 +1,15 @@
 const projects = [
   {
-    "name": "GameTime"
+    "name": "GameTime",
+    "palettes": ["Warm Colors"]
   },
   {
-    "name": "BYOB"
+    "name": "BYOB",
+    "palettes": ["Cool Colors"]
   },
   {
-    "name": "Whateverly"
+    "name": "Whateverly",
+    "palettes": ["Neutral Colors"]
   }
 ]
 
