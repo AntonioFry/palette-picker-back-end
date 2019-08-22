@@ -7,7 +7,7 @@ const database = require('knex')(configuration);
 describe('App', () => {
 
   describe('init', () => {
-    it.skip('should return a 200 status', async () => {
+    it('should return a 200 status', async () => {
       const res = await request(app).get('/')
       expect(res.status).toBe(200)
     })
@@ -22,7 +22,7 @@ describe('App', () => {
     describe('GET /api/v1/projects', () => {
       
       
-      it.skip('should return all projects', async () => {
+      it('should return all projects', async () => {
         const expectedProjects = await database('projects').select();
         
         const response = await request(app).get('/api/v1/projects');
@@ -37,7 +37,7 @@ describe('App', () => {
         expect(modifiedProjects).toEqual(modifiedProjects);
       });
   
-      it.skip('Happy Path: return a status of 200', async () => {
+      it('Happy Path: return a status of 200', async () => {
           const response = await request(app).get('/api/v1/projects');
   
           expect(response.status).toBe(200);
@@ -45,7 +45,7 @@ describe('App', () => {
     });
   
     describe('GET /api/v1/palettes', () => {
-      it.skip('should return all palettes', async () => {
+      it('should return all palettes', async () => {
         const expectedPalettes = await database('palettes').select();
   
         const response = await request(app).get('/api/v1/palettes');
@@ -59,7 +59,7 @@ describe('App', () => {
         expect(modifiedPalettes).toEqual(modifiedPalettes);
       });
   
-      it.skip('Happy Path: return a status of 200', async () => {
+      it('Happy Path: return a status of 200', async () => {
         const response = await request(app).get('/api/v1/palettes');
   
         expect(response.status).toBe(200);
@@ -67,14 +67,14 @@ describe('App', () => {
     });
   
     describe('GET /api/v1/projects/:id', () => {
-      it.skip('should return a specific project', async () => {
+      it('should return a specific project', async () => {
         const response = await request(app).get('/api/v1/projects/1');
         const projectId = response.body[0].id
   
         expect(projectId).toBe(1)
       });
   
-      it.skip('Happy Path: return a status of 200', async () => {
+      it('Happy Path: return a status of 200', async () => {
         const response = await request(app).get('/api/v1/projects/1');
 
         expect(response.status).toBe(200)
@@ -83,13 +83,13 @@ describe('App', () => {
     });
   
     describe('GET /api/v1/palettes/:id', () => {
-      it.skip('should return a specific palette', async () => {
+      it('should return a specific palette', async () => {
         const response = await request(app).get('/api/v1/palettes/1');
         const projectId = response.body[0].id
 
         expect(projectId).toBe(1)
       });
-      it.skip('Happy Path: return a status of 200', async () => {
+      it('Happy Path: return a status of 200', async () => {
         const response = await request(app).get('/api/v1/palettes/1');
 
         expect(response.status).toBe(200)
@@ -97,7 +97,7 @@ describe('App', () => {
     });
   
     describe('POST /api/v1/projects', () => {
-      it.skip('should post a new project', async () => {
+      it('should post a new project', async () => {
         const newProject = {
           name: "Dog Party"
         }
@@ -108,7 +108,7 @@ describe('App', () => {
 
         expect(project.id).toEqual(newProject.id);
       });
-      it.skip('Happy Path: return a status of 201', async () => {
+      it('Happy Path: return a status of 201', async () => {
         const newProject = {
           name: "Dog Party"
         }
@@ -123,7 +123,7 @@ describe('App', () => {
     });
   
     describe('POST /api/v1/palettes', () => {
-      it.skip('should post a new palette', async () => {
+      it('should post a new palette', async () => {
         const newPalette = {
           palette_name: "Plain Colors",
           color_1: "#800000",
@@ -139,7 +139,7 @@ describe('App', () => {
 
         expect(palette.palette_name).toEqual(newPalette.palette_name);
       });
-      it.skip('Happy Path: return a status of 201', async () => {
+      it('Happy Path: return a status of 201', async () => {
         const newPalette = {
           palette_name: "Plain Colors",
           color_1: "#800000",
