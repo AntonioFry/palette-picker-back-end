@@ -75,27 +75,29 @@ app.post('/api/v1/palettes', (request, response) => {
   const required = ['project_id', 'palette_name', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5'];
   for (let param of required) {
     if (!palette[required]) {
-      return response.status(422).send(`Expected format: {project_id: <Number>, palette_name: <String>, color_1: <String>, color_2: <String>, color_3: <String>, color_4: <String>, color_5: <String>}, but you are missing the ${param} parameter`)
+      return response.status(422).send(`Expected format: {project_id: <Integer>, palette_name: <String>, color_1: <String>, color_2: <String>, color_3: <String>, color_4: <String>, color_5: <String>}, but you are missing the ${param} parameter`)
     }
-  }
+  };
   database('palettes').insert(palette, '*')
-    .then(palette => response.status(201).json(palette[0]))
-    .catch(() => res.sendStatus(500));
+    .then(palette => {
+      response.status(201).json(palette[0])
+    })
+    .catch(() => response.sendStatus(500));
 })
 
 app.post('/api/v1/projects', (request, response) => {
-const project = request.body;
-const required = ['name'];
-for (let param of required) {
-  if (!project[required]) {
-    return response.status(422).send(`Expected format: ${required}. You are missing ${param}.`)
-  }
-};
-database('projects').insert(project, '*')
-  .then(project => {
-	  response.status(201).json(project[0]);
-  })
-  .catch(() => response.sendStatus(500))
+  const project = request.body;
+  const required = ['name'];
+  for (let param of required) {
+    if (!project[required]) {
+      return response.status(422).send(`Expected format: ${required}. You are missing ${param}.`)
+    }
+  };
+  database('projects').insert(project, '*')
+    .then(project => {
+      response.status(201).json(project[0]);
+    })
+    .catch(() => response.sendStatus(500))
 });
 
 // DELETE
