@@ -4,8 +4,10 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "jest --watchAll",
-    "start": "nodemon app.js"
+    "test": "jest --forceExit",
+    "dev_test": "jest --watchAll",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "keywords": [],
   "author": "",

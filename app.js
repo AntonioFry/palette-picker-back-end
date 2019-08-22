@@ -72,10 +72,12 @@ app.get('/api/v1/projects/:id', (request, response) => {
 
 app.post('/api/v1/palettes', (request, response) => {
   const palette = request.body;
-  const required = ['project_id','palette_name', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5'];
-  // for(let param of required){
-  //   return response.status(422).send(`Expected format: {project_id: <Number>, palette_name: <String>, color_1: <String>, color_2: <String>, color_3: <String>, color_4: <String>, color_5: <String>}, but you are missing the ${param} parameter`)
-  // }
+  const required = ['project_id', 'palette_name', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5'];
+  for (let param of required) {
+    if (!palette[required]) {
+      return response.status(422).send(`Expected format: {project_id: <Number>, palette_name: <String>, color_1: <String>, color_2: <String>, color_3: <String>, color_4: <String>, color_5: <String>}, but you are missing the ${param} parameter`)
+    }
+  }
   database('palettes').insert(palette, '*')
     .then(palette => response.status(201).json(palette[0]))
     .catch(() => res.sendStatus(500));
@@ -83,10 +85,12 @@ app.post('/api/v1/palettes', (request, response) => {
 
 app.post('/api/v1/projects', (request, response) => {
 const project = request.body;
-const required = ['name', 'id'];
-// for (let param of required) {
-// 	return response.status(422).send(`Expected format: ${required}. You are missing ${param}.`)
-// };
+const required = ['name'];
+for (let param of required) {
+  if (!project[required]) {
+    return response.status(422).send(`Expected format: ${required}. You are missing ${param}.`)
+  }
+};
 database('projects').insert(project, '*')
   .then(project => {
 	  response.status(201).json(project[0]);
@@ -154,7 +158,9 @@ app.patch('/api/v1/palettes/:id', (request, response) => {
     const palette = request.body
     const required = ['project_id','palette_name', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5'];
     for(let param of required){
-      return response.status(422).send(`Expected format: {project_id: <Number>, palette_name: <String>, color_1: <String>, color_2: <String>, color_3: <String>, color_4: <String>, color_5: <String>}, but you are missing the ${param} parameter`)
+      if (!palette[required]) {
+        return response.status(422).send(`Expected format: {project_id: <Number>, palette_name: <String>, color_1: <String>, color_2: <String>, color_3: <String>, color_4: <String>, color_5: <String>}, but you are missing the ${param} parameter`)
+      }
     }
   database('palettes').where("id", id).update(palette)
     .then(palette => {
@@ -168,4 +174,4 @@ app.patch('/api/v1/palettes/:id', (request, response) => {
 });
 
 
-module.exports = app
+module.exports = app;
