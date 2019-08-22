@@ -27,7 +27,6 @@ const createProject = (knex, project) => {
           })
         )
       })
-
       return Promise.all(palettePromises);
     })
 }
