@@ -3,7 +3,57 @@
   <img alt="Version" src="https://img.shields.io/badge/version-  -blue.svg?cacheSeconds=2592000" />
 </p>
 
+## Table of Contents
+* [Learning Goals](#Learning-Goals)
+* [Challenges](#Challenges)
+* [Successes](#Successes)
+* [Tech Stack](#Tech-Stack)
+* [How To Use](#How-To-Use)
+* [Endpoints](#Endpoints)
+* [GET](#GET-Projects)
+* [POST](#POST-Projects)
+* [PATCH](#PATCH-Projects)
+* [DELETE](#DELETE-Projects)
+* [Developers](#Developer)
+
 > Palette Picker was created to help designers and developers pick the perfect color palette for their site or application. The project was developed with Express, Knex, Node.js, and React. It is deployed on Heroku and tested using Supertest. 
+
+## Learning Goals
+
+The primary learning goals for this project are:
+
+* server-side testing
+* further understanding of complete CRUD endpoints
+* connecting BE & FE repositories using CORS
+* multiple environments:
+* testing
+* making use of automatic continuous integration with TravisCI
+* deployment with Heroku
+
+The second focus for this project is developing professional-level workflow habits. This includes:
+
+* using a PR template
+* conducting actual code reviews in your PRs
+* detailed agile workflow using a kanban system or GH issues
+* keeping track of MVP features and nice-to-have features
+* agreeing to a commit message template
+* exploring git rebase and squashing
+* Highly semantic, specific, professional documentation (README, API documentation, etc)
+
+## Challenges
+
+## Successes
+
+## Tech Stack
+
+* React
+* Express
+* Knex
+* Node.js
+* Supertest
+* Jest
+
+# How To Use
 
 ## Install
 
@@ -22,6 +72,189 @@ npm run start
 ```sh
 npm run test
 ```
+
+## Endpoints
+
+### GET Projects
+
+METHOD: GET
+
+ENDPOINT: /api/v1/projects
+
+EXAMPLE RESPONSE:
+
+```
+[
+    {
+        "id": 1,
+        "name": "GameTime",
+        "created_at": "2019-08-22T14:06:43.538Z",
+        "updated_at": "2019-08-22T14:06:43.538Z"
+    },
+    {
+        "id": 2,
+        "name": "BYOB",
+        "created_at": "2019-08-22T14:06:43.538Z",
+        "updated_at": "2019-08-22T14:06:43.538Z"
+    },
+    {
+        "id": 3,
+        "name": "Whateverly",
+        "created_at": "2019-08-22T14:06:43.538Z",
+        "updated_at": "2019-08-22T14:06:43.538Z"
+    }
+]
+```
+
+
+### GET Projects/:id
+
+METHOD: GET
+
+ENDPOINT: /api/v1/projects/:id
+
+EXAMPLE RESPONSE:
+
+```
+[
+    {
+        "id": 1,
+        "name": "GameTime",
+        "created_at": "2019-08-22T14:06:43.538Z",
+        "updated_at": "2019-08-22T14:06:43.538Z"
+    }
+]
+```
+
+
+### GET Palettes
+
+METHOD: GET
+
+ENDPOINT: /api/v1/palettes
+
+EXAMPLE RESPONSE:
+
+```
+[
+    {
+        "id": 1,
+        "palette_name": "Neutral Colors",
+        "color_1": "#A96A44",
+        "color_2": "#923F0C",
+        "color_3": "#5F5F13",
+        "color_4": "#8B8B3E",
+        "color_5": "#782011",
+        "project_id": 3,
+        "created_at": "2019-08-22T14:06:43.550Z",
+        "updated_at": "2019-08-22T14:06:43.550Z"
+    },
+    {
+        "id": 2,
+        "palette_name": "Cool Colors",
+        "color_1": "#A4FAD7",
+        "color_2": "#A4FAED",
+        "color_3": "#0B9EE3",
+        "color_4": "#0B56E3",
+        "color_5": "#600BE3",
+        "project_id": 2,
+        "created_at": "2019-08-22T14:06:43.549Z",
+        "updated_at": "2019-08-22T14:06:43.549Z"
+    },
+    {
+        "id": 3,
+        "palette_name": "Warm Colors",
+        "color_1": "#800000",
+        "color_2": "#FC1501",
+        "color_3": "#F87531",
+        "color_4": "#FF8000",
+        "color_5": "#FFCC11",
+        "project_id": 1,
+        "created_at": "2019-08-22T14:06:43.549Z",
+        "updated_at": "2019-08-22T14:06:43.549Z"
+    }
+]
+```
+
+
+### GET Palettes/:id
+
+METHOD: GET
+
+ENDPOINT: /api/v1/palettes/:id
+
+EXAMPLE RESPONSE:
+
+```
+[
+    {
+        "id": 1,
+        "palette_name": "Neutral Colors",
+        "color_1": "#A96A44",
+        "color_2": "#923F0C",
+        "color_3": "#5F5F13",
+        "color_4": "#8B8B3E",
+        "color_5": "#782011",
+        "project_id": 3,
+        "created_at": "2019-08-22T14:06:43.550Z",
+        "updated_at": "2019-08-22T14:06:43.550Z"
+    }
+]
+```
+
+
+### POST Project
+
+METHOD: POST
+
+ENDPOINT: /api/v1/projects
+
+EXAMPLE RESPONSE:
+
+
+### POST Palette
+
+METHOD: POST
+
+ENDPOINT: /api/v1/palettes
+
+EXAMPLE RESPONSE:
+
+
+### PATCH Project
+
+METHOD: PATCH
+
+ENDPOINT: /api/v1/projects/:id
+
+EXAMPLE RESPONSE:
+
+
+### PATCH Palette
+
+METHOD: PATCH
+
+ENDPOINT: /api/v1/palettes/:id
+
+EXAMPLE RESPONSE:
+
+
+### DELETE Project
+
+METHOD: DELETE
+
+ENDPOINT: /api/v1/projects/:id
+
+EXAMPLE RESPONSE:
+
+
+### DELETE Palette
+
+METHOD: DELETE
+
+ENDPOINT: /api/v1/palettes/:id
+
+EXAMPLE RESPONSE:
 
 ## Developers
 
