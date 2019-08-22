@@ -1,5 +1,6 @@
 const palettes = [
   {
+    project_id: 1,
     palette_name: "Warm Colors",
     color_1: "#800000",
     color_2: "#FC1501",
@@ -8,6 +9,7 @@ const palettes = [
     color_5: "#FFCC11"
   },
   {
+    project_id: 2,
     palette_name: "Cool Colors",
     color_1: "#A4FAD7",
     color_2: "#A4FAED",
@@ -16,6 +18,7 @@ const palettes = [
     color_5: "#600BE3"
   },
   {
+    project_id: 3,
     palette_name: "Neutral Colors",
     color_1: "#A96A44",
     color_2: "#923F0C",
