@@ -1,7 +1,11 @@
-// // const projects = require('../../../data/projects');
-// // const randomColor = require('randomcolor');
-// const projectsData = require('../../../data/testProjects')
-// const palettesData = require('../../../data/testPalettes');
+// const projects = require('../../../data/projects');
+// const randomColor = require('randomcolor');
+
+const findPalette = (currentPalette) => {
+  return palettesData.find(palette => {
+    return palette.palette_name === currentPalette;
+  })
+}
 
 // const findPalette = (currentPalette) => {
 //   return palettesData.find(palette => {
