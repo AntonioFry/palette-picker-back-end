@@ -72,30 +72,35 @@ app.get('/api/v1/projects/:id', (request, response) => {
 
 app.post('/api/v1/palettes', (request, response) => {
   const palette = request.body;
-  const required = ['project_id', 'palette_name', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5'];
+  console.log(palette)
+  const required = ['palette_name', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5'];
   for (let param of required) {
-    if (!palette[required]) {
-      return response.status(422).send(`Expected format: {project_id: <Number>, palette_name: <String>, color_1: <String>, color_2: <String>, color_3: <String>, color_4: <String>, color_5: <String>}, but you are missing the ${param} parameter`)
+    if (!palette[param]) {
+      return response.status(422).send(`Expected format: {palette_name: <String>, color_1: <String>, color_2: <String>, color_3: <String>, color_4: <String>, color_5: <String>}, but you are missing the ${param} parameter`)
     }
-  }
-  database('palettes').insert(palette, '*')
-    .then(palette => response.status(201).json(palette[0]))
-    .catch(() => res.sendStatus(500));
+  };
+  database('palettes').insert(palette, 'id')
+    .then((paletteId) => {
+      response.status(201).json(paletteId);
+    })
+    .catch(() => {
+      response.sendStatus(500);
+    })
 })
 
 app.post('/api/v1/projects', (request, response) => {
-const project = request.body;
-const required = ['name'];
-for (let param of required) {
-  if (!project[required]) {
-    return response.status(422).send(`Expected format: ${required}. You are missing ${param}.`)
-  }
-};
-database('projects').insert(project, '*')
-  .then(project => {
-	  response.status(201).json(project[0]);
-  })
-  .catch(() => response.sendStatus(500))
+  const project = request.body;
+  const required = ['name'];
+  for (let param of required) {
+    if (!project[param]) {
+      return response.status(422).send(`Expected format: ${required}. You are missing ${param}.`)
+    }
+  };
+  database('projects').insert(project, 'id')
+    .then(projectId => {
+      response.status(201).json(projectId);
+    })
+    .catch(() => response.sendStatus(500))
 });
 
 // DELETE
@@ -104,11 +109,11 @@ app.delete('/api/v1/palettes/:id', (request, response) => {
   const { id } = request.params
   database('palettes').where("id", id).del()
     .then(() => { 
-      if(!palette){
-        return response.status(404).send(`No data found with id of ${id}`);
-      } else {
-        response.status(200).send(`Palette successfully deleted.`);
-      }
+      // if(!palette){
+      //   return response.status(404).send(`No data found with id of ${id}`);
+      // } else {
+        response.status(204).send(`Palette successfully deleted.`);
+      // }
     })
     .catch(() => response.sendStatus(500));
 });
@@ -116,16 +121,17 @@ app.delete('/api/v1/palettes/:id', (request, response) => {
 
 app.delete('/api/v1/projects/:id', (request, response) => {
   const { id } = request.params
-  database('palettes').where("id", project_id).del()
+  database('palettes').where("project_id", id).del()
     .then(() => {
       database('projects').where("id", id).del()
-        .then(project => {
-          if(!project) {
-            return response.status(404).send(`No data found with id of ${id}`)
-          } else {
-            return response.status(204).send('Project deleted successfully')
-          }
+        .then(() => {
+          // if(!project) {
+          //   return response.status(404).send(`No data found with id of ${id}`)
+          // } else {
+          return response.status(204).send(`Palette successfully deleted.`)
+          // }
         })
+        .catch(() => response.sendStatus(500))
       })
     .catch(() => response.sendStatus(500))
 });
@@ -134,17 +140,18 @@ app.delete('/api/v1/projects/:id', (request, response) => {
 // PATCH
 
 app.patch('/api/v1/projects/:id', (request, response) => {
-  const {id} = request.params
+  const { id } = request.params
   const project = request.body
   const required = ['name'];
   
   for (let param of required) {
-			return response.status(422).send(`Expected format: ${required}. You are missing ${param}.`);
+    if (!project[param]){
+      return response.status(422).send(`Expected format: ${required}. You are missing ${param}.`);
+    }
   }
-  
-  database('projects').where("id", id).update(project)
-  .then(project => {
-    if (!project) {
+  database('projects').where("id", id).update("name", project.name)
+  .then(projectId => {
+    if (projectId === 0) {
       response.status(404).send('No data found')
     } else {
       response.status(200).send('Project successfully updated')
@@ -154,20 +161,22 @@ app.patch('/api/v1/projects/:id', (request, response) => {
 });
 
 app.patch('/api/v1/palettes/:id', (request, response) => {
-    const {id} = request.params
+    const { id } = request.params
     const palette = request.body
-    const required = ['project_id','palette_name', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5'];
-    for(let param of required){
-      if (!palette[required]) {
-        return response.status(422).send(`Expected format: {project_id: <Number>, palette_name: <String>, color_1: <String>, color_2: <String>, color_3: <String>, color_4: <String>, color_5: <String>}, but you are missing the ${param} parameter`)
+    const required = ['palette_name', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5'];
+    for (let param of required) {
+      if (!palette[param]) {
+        return response.status(422).send(`Expected format: {palette_name: <String>, color_1: <String>, color_2: <String>, color_3: <String>, color_4: <String>, color_5: <String>}, but you are missing the ${param} parameter`)
       }
     }
+    console.log(id)
   database('palettes').where("id", id).update(palette)
-    .then(palette => {
-      if (!palette) {
+    .then(paletteId => {
+      console.log(paletteId)
+      if (paletteId === 0) {
         response.status(404).send('No data found')
       } else {
-        response.status(200).send('Project successfully updated')
+        response.status(200).send('Palette successfully updated')
       }
     })
     .catch(() => response.sendStatus(500))

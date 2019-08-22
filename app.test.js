@@ -7,7 +7,7 @@ const database = require('knex')(configuration);
 describe('App', () => {
 
   describe('init', () => {
-    it.skip('should return a 200 status', async () => {
+    it('should return a 200 status', async () => {
       const res = await request(app).get('/')
       expect(res.status).toBe(200)
     })
@@ -22,22 +22,16 @@ describe('App', () => {
     describe('GET /api/v1/projects', () => {
       
       
-      it.skip('should return all projects', async () => {
+      it('should return all projects', async () => {
         const expectedProjects = await database('projects').select();
         
         const response = await request(app).get('/api/v1/projects');
         const projects = response.body;
-        console.log(projects);
-        const modifiedProjects = expectedProjects.map(project => {
-          parseInt(project.created_at)
-          parseInt(project.updated_at)
-          return project
-        })
         
-        expect(modifiedProjects).toEqual(modifiedProjects);
+        expect(expectedProjects.length).toEqual(projects.length);
       });
   
-      it.skip('Happy Path: return a status of 200', async () => {
+      it('Happy Path: return a status of 200', async () => {
           const response = await request(app).get('/api/v1/projects');
   
           expect(response.status).toBe(200);
@@ -45,21 +39,16 @@ describe('App', () => {
     });
   
     describe('GET /api/v1/palettes', () => {
-      it.skip('should return all palettes', async () => {
+      it('should return all palettes', async () => {
         const expectedPalettes = await database('palettes').select();
   
         const response = await request(app).get('/api/v1/palettes');
         const palettes = response.body;
-        const modifiedPalettes = expectedPalettes.map(palette => {
-          parseInt(palette.created_at)
-          parseInt(palette.updated_at)
-          return palette
-        })
   
-        expect(modifiedPalettes).toEqual(modifiedPalettes);
+        expect(expectedPalettes.length).toEqual(palettes.length);
       });
   
-      it.skip('Happy Path: return a status of 200', async () => {
+      it('Happy Path: return a status of 200', async () => {
         const response = await request(app).get('/api/v1/palettes');
   
         expect(response.status).toBe(200);
@@ -67,14 +56,14 @@ describe('App', () => {
     });
   
     describe('GET /api/v1/projects/:id', () => {
-      it.skip('should return a specific project', async () => {
+      it('should return a specific project', async () => {
         const response = await request(app).get('/api/v1/projects/1');
         const projectId = response.body[0].id
   
         expect(projectId).toBe(1)
       });
   
-      it.skip('Happy Path: return a status of 200', async () => {
+      it('Happy Path: return a status of 200', async () => {
         const response = await request(app).get('/api/v1/projects/1');
 
         expect(response.status).toBe(200)
@@ -83,13 +72,13 @@ describe('App', () => {
     });
   
     describe('GET /api/v1/palettes/:id', () => {
-      it.skip('should return a specific palette', async () => {
+      it('should return a specific palette', async () => {
         const response = await request(app).get('/api/v1/palettes/1');
         const projectId = response.body[0].id
 
         expect(projectId).toBe(1)
       });
-      it.skip('Happy Path: return a status of 200', async () => {
+      it('Happy Path: return a status of 200', async () => {
         const response = await request(app).get('/api/v1/palettes/1');
 
         expect(response.status).toBe(200)
@@ -97,18 +86,18 @@ describe('App', () => {
     });
   
     describe('POST /api/v1/projects', () => {
-      it.skip('should post a new project', async () => {
+      it('should post a new project', async () => {
         const newProject = {
           name: "Dog Party"
         }
 
         const response = await request(app).post('/api/v1/projects').send(newProject);
-        const projects = await database('projects').where('name', response.body.id).select();
+        const projects = await database('projects').where('id', response.body[0]).select();
         const project = projects[0];
 
-        expect(project.id).toEqual(newProject.id);
+        expect(project.name).toEqual(newProject.name);
       });
-      it.skip('Happy Path: return a status of 201', async () => {
+      it('Happy Path: return a status of 201', async () => {
         const newProject = {
           name: "Dog Party"
         }
@@ -117,13 +106,19 @@ describe('App', () => {
 
         expect(response.status).toBe(201)
       });
-      it('Sad Path: return a status of 422', () => {
-  
+      it('Sad Path: return a status of 422', async () => {
+        const newProject = {
+          
+        }
+
+        const response = await request(app).post('/api/v1/projects').send(newProject);
+
+        expect(response.status).toBe(422)
       });
     });
   
     describe('POST /api/v1/palettes', () => {
-      it.skip('should post a new palette', async () => {
+      it('should post a new palette', async () => {
         const newPalette = {
           palette_name: "Plain Colors",
           color_1: "#800000",
@@ -134,12 +129,12 @@ describe('App', () => {
         }
 
         const response = await request(app).post('/api/v1/palettes').send(newPalette);
-        const palettes = await database('palettes').where('id', response.body.id).select();
+        const palettes = await database('palettes').where('id', response.body[0]).select();
         const palette = palettes[0];
 
         expect(palette.palette_name).toEqual(newPalette.palette_name);
       });
-      it.skip('Happy Path: return a status of 201', async () => {
+      it('Happy Path: return a status of 201', async () => {
         const newPalette = {
           palette_name: "Plain Colors",
           color_1: "#800000",
@@ -153,59 +148,145 @@ describe('App', () => {
 
         expect(response.status).toBe(201);
       });
-      it('Sad Path: return a status of 422', () => {
-  
+      it('Sad Path: return a status of 422', async () => {
+        const newPalette = {
+          palette_name: "Plain Colors",
+          color_2: "#FC1501",
+          color_3: "#F87531",
+          color_4: "#FF8000",
+          color_5: "#FFCC11"
+        }
+
+        const response = await request(app).post('/api/v1/palettes').send(newPalette);
+
+        expect(response.status).toBe(422);
       });
     });
   
-    describe('DELETE /project', () => {
-      it('should delete a given project', () => {
-  
-      });
-      it('Happy Path: return a status of 202', () => {
-  
+    describe('DELETE /api/v1/projects', () => {
+      it('Happy Path: return a status of 202', async () => {
+        const projectId = await database('projects').first('id');
+        const response = await request(app).delete(`/api/v1/projects/${projectId.id}`)
+
+        expect(response.status).toBe(204)
       });
       it('Sad Path: return a status of 404', () => {
   
       });
     });
   
-    describe('DELETE /palette', () => {
-      it('should delete a given palette', () => {
+    describe('DELETE /api/v1/palettes', () => {
+      it('Happy Path: return a status of 200', async () => {
+        const paletteId = await database('palettes').first('id');
+        const response = await request(app).delete(`/api/v1/palettes/${paletteId.id}`)
   
-      });
-      it('Happy Path: return a status of 200', () => {
-  
-      });
-      it('Sad Path: return a status of 404', () => {
-  
-      });
-    });
-  
-    describe('Patch /project', () => {
-      it('should update a project', () => {
-  
-      });
-      it('Happy Path: return a status of 200', () => {
-  
+        expect(response.status).toBe(204)
       });
       it('Sad Path: return a status of 404', () => {
   
       });
     });
   
-    describe('Patch /palette', () => {
-      it('should update a palette', () => {
-  
+    describe('PATCH /api/v1/project/:id', () => {
+      it('should update a project', async () => {
+        const updatedProjects = {
+          name: "Dog Party",
+        }
+
+        const response = await request(app)
+          .patch("/api/v1/projects/1")
+          .send(updatedProjects);
+        const projects = await database('projects').where('id', 1).select();
+        const project = projects[0];
+
+
+        expect(project.name).toEqual(updatedProjects.name);
       });
-      it('Happy Path: return a status of 200', () => {
-  
+      it('Happy Path: return a status of 200', async () => {
+        const updatedProjects = {
+          name: "Dog Party",
+        }
+
+        const response = await request(app)
+          .patch("/api/v1/projects/1")
+          .send(updatedProjects);
+
+        expect(response.status).toBe(200);
+        expect(response.text).toBe("Project successfully updated");
       });
-      it('Sad Path: return a status of 404', () => {
-  
+      it('should return a status of 422 if missing parameter', async () => {
+        const updatedProjects = {
+          name: null
+        }
+        const response = await request(app)
+          .patch("/api/v1/projects/6")
+          .send(updatedProjects);
+
+        expect(response.status).toBe(422);
       });
+      it('SAD PATH: should return status of 404', async () => {
+        const updatedProjects = {
+          name: "Dog Party",
+        }
+
+        const response = await request(app)
+          .patch("/api/v1/projects/6")
+          .send(updatedProjects);
+
+        expect(response.status).toBe(404)
+      })
     });
 
-  }); 
+    describe('PATCH /api/v1/palette/:id', () => {
+      it('should update a palette', async () => {
+        // const updatedPalette = {
+        //   palette_name: "Boring Colors",
+        //   color_1: "#800000",
+        //   color_2: "#FC1501",
+        //   color_3: "#F87531",
+        //   color_4: "#FF8000",
+        //   color_5: "#FFCC11"
+        // }
+        // const response = await request(app)
+        //   .patch("/api/v1/palettes/1")
+        //   .send(updatedPalette);
+        // const palettes = database('palettes').where("project_id", 1).select();
 
+        // const palette = palettes[0];
+        
+        // expect(palette.palette_name).toEqual(updatedPalette.palette_name);
+      });
+      it('Happy Path: return a status of 200', async () => {
+        
+      });
+      it('Sad Path: return a status of 404', async () => {
+        const updatedPalette = {
+          palette_name: "Boring Colors",
+          color_1: "#809000",
+          color_2: "#FC1501",
+          color_3: "#F87531",
+          color_4: "#FF8000",
+          color_5: "#FFCC11"
+        }
+
+        const response = await request(app).patch('/api/v1/palettes/6').send(updatedPalette);
+
+        expect(response.status).toBe(404)
+      });
+
+      it('should return a status of 422 if missing parameter', async () => {
+        const updatedPalette = {
+          color_1: "#800000",
+          color_3: "#F87531",
+          color_4: "#FF8000",
+          color_5: "#FFCC11"
+        }
+        const response = await request(app)
+          .patch("/api/v1/palettes/1")
+          .send(updatedPalette);
+        expect(response.status).toBe(422);
+      })
+    });
+  });
 });
+       //change in app.js

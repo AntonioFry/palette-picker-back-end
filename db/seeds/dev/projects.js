@@ -1,5 +1,5 @@
-const projectsData = require('../../../data/testProjects')
-const palettesData = require('../../../data/testPalettes');
+const projectsData = require('../../../data/projects')
+const palettesData = require('../../../data/palettes');
 
 const findPalette = (currentPalette) => {
   return palettesData.find(palette => {
@@ -47,7 +47,6 @@ exports.seed = function (knex) {
 
       return Promise.all(projectsPromises);
     })
-    .then(() => console.log('seeding complete'))
     .catch((error) => {
       console.log(`error in seeding data: ${error.message}`);
     })
