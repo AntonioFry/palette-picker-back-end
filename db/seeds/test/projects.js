@@ -5,8 +5,6 @@ const palettesData = require('../../../data/testPalettes');
 
 const findPalette = (currentPalette) => {
   return palettesData.find(palette => {
-    console.log(currentPalette)
-    console.log(palette.palette_name)
     return palette.palette_name === currentPalette;
   })
 }
