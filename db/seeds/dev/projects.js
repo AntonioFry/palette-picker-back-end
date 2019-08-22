@@ -1,40 +1,56 @@
-const projects = require('../../../data/projects');
-const randomColor = require('randomcolor');
+const projectsData = require('../../../data/testProjects')
+const palettesData = require('../../../data/testPalettes');
 
-const seedPalettes = (knex, palette) => {
-  return knex('projects').where('id', palette.project_id).first()
-    .then((project) => {
-      return knex('palettes').insert({
-        project_id: project.id,
-        palette_name: palette.palette_name,
-        color_1: randomColor,
-        color_2: randomColor,
-        color_3: randomColor,
-        color_4: randomColor,
-        color_5: randomColor,
-      });
+const findPalette = (currentPalette) => {
+  return palettesData.find(palette => {
+    return palette.palette_name === currentPalette;
+  })
+}
+
+const createPalette = (knex, palette) => {
+  return knex('palettes').insert(palette);
+}
+
+const createProject = (knex, project) => {
+  return knex('projects').insert({
+    "name": project.name
+  }, "id")
+    .then((projectId) => {
+      let palettePromises = [];
+
+      project.palettes.forEach(palette => {
+        const foundPalette = findPalette(palette);
+        palettePromises.push(
+          createPalette(knex, {
+            ...foundPalette,
+            project_id: projectId[0]
+          })
+        )
+      })
+
+      return Promise.all(palettePromises);
     })
 }
 
-exports.seed = function(knex) {
+exports.seed = function (knex) {
   return knex('palettes').del()
     .then(() => knex('projects').del())
-    .then( async () => {
+    .then(async () => {
       await knex.raw("TRUNCATE TABLE palettes RESTART IDENTITY CASCADE");
       await knex.raw("TRUNCATE TABLE projects RESTART IDENTITY CASCADE");
     })
     .then(() => {
-      return knex('projects').insert(projects);
-    })
-    .then(() => {
-      let palettePromises = [];
-      palettes.forEach(palette => {
-        palettePromises.push(seedPalettes(knex, palette))
-      })
-      return Promise.all(palettePromises);
+      let projectsPromises = [];
+
+      projectsData.forEach(project => {
+        projectsPromises.push(createProject(knex, project))
+      });
+
+      return Promise.all(projectsPromises);
     })
     .then(() => console.log('seeding complete'))
     .catch((error) => {
       console.log(`error in seeding data: ${error.message}`);
     })
 }
+
