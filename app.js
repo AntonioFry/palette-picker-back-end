@@ -123,7 +123,8 @@ app.delete('/api/v1/projects/:id', (request, response) => {
             return response.status(204).send('Project deleted successfully')
           }
         })
-        .catch(() => response.sendStatus(500))
+      })
+    .catch(() => response.sendStatus(500))
 });
 
 

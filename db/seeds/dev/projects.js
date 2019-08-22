@@ -1,18 +1,11 @@
-const projects = require('../../../data/projects');
-const randomColor = require('randomcolor');
+const projects = require('../../../data/projects')
+const palettes = require('../../../data/palettes');
 
 const seedPalettes = (knex, palette) => {
   return knex('projects').where('id', palette.project_id).first()
     .then((project) => {
-      return knex('palettes').insert({
-        project_id: project.id,
-        palette_name: palette.palette_name,
-        color_1: randomColor(),
-        color_2: randomColor(),
-        color_3: randomColor(),
-        color_4: randomColor(),
-        color_5: randomColor(),
-      });
+      return knex('palettes').insert({...palette,
+        project_id: project.id});
     })
 }
 

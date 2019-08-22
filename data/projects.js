@@ -1,15 +1,12 @@
 const projects = [
   {
-    "projectName": "GameTime"
+    "name": "GameTime"
   },
   {
-    "projectName": "BYOB"
+    "name": "BYOB"
   },
   {
-    "projectName": "Whateverly"
-  },
-  {
-    "projectName": "DogParty"
+    "name": "Whateverly"
   }
 ]
 
