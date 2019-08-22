@@ -4,8 +4,11 @@ const database = require('knex')(configuration);
 const express = require('express');
 const app = express();
 const cors = require('cors');
-// const projectData = require('../data/projects')
-require('dotenv').config();
+const projectData = require('./data/projects')
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
 
 app.set('port', process.env.PORT || 3001)
 app.use(express.json())
@@ -126,7 +129,6 @@ app.delete('/api/v1/projects/:id', (request, response) => {
           }
         })
         .catch(() => response.sendStatus(500))
-    })
 });
 
 
@@ -153,7 +155,7 @@ app.patch('/api/v1/projects/:id', (request, response) => {
 });
 
 app.patch('/api/v1/palettes/:id', (request, response) => {
-    const { id } = request.params
+    const {id} = request.params
     const palette = request.body
     const required = ['project_id','palette_name', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5'];
     for(let param of required){
@@ -169,5 +171,6 @@ app.patch('/api/v1/palettes/:id', (request, response) => {
     })
     .catch(() => response.sendStatus(500))
 });
+
 
 module.exports = app
