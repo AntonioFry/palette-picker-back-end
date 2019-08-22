@@ -7,11 +7,11 @@ const seedPalettes = (knex, palette) => {
       return knex('palettes').insert({
         project_id: project.id,
         palette_name: palette.palette_name,
-        color_1: randomColor,
-        color_2: randomColor,
-        color_3: randomColor,
-        color_4: randomColor,
-        color_5: randomColor,
+        color_1: randomColor(),
+        color_2: randomColor(),
+        color_3: randomColor(),
+        color_4: randomColor(),
+        color_5: randomColor(),
       });
     })
 }
