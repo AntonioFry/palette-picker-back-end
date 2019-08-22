@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "jest --watchAll",
+    "test": "jest --forceExit",
+    "dev_test": "jest --watchAll",
     "start": "node app.js",
     "dev": "nodemon app.js"
   },
