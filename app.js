@@ -9,17 +9,11 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 
-
-app.set('port', process.env.PORT || 3001)
 app.use(express.json())
 app.use(cors())
 
 app.get('/', (request, response) => {
 response.send('Welcome to Palette Picker');
-});
-
-app.listen(app.get('port'), () => {
-  console.log(`Palette Picker is running on http://localhost:${app.get('port')}.`);
 });
 
 // GET
@@ -133,7 +127,7 @@ app.delete('/api/v1/projects/:id', (request, response) => {
           }
         })
       })
-        .catch(() => response.sendStatus(500))
+    .catch(() => response.sendStatus(500))
 });
 
 
@@ -178,6 +172,5 @@ app.patch('/api/v1/palettes/:id', (request, response) => {
     })
     .catch(() => response.sendStatus(500))
 });
-
 
 module.exports = app;
