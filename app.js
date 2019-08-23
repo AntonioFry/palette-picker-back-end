@@ -3,17 +3,19 @@ const configuration = require('./knexfile')[enviroment];
 const database = require('knex')(configuration);
 const express = require('express');
 const app = express();
+// const bodyParser = require('body-parser');
 const cors = require('cors');
 const projectData = require('./data/projects')
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 
-app.use(express.json())
-app.use(cors())
-
+app.set('port', process.env.PORT || 3001)
+app.use(express.json());
+app.use(cors());
+// app.use(bodyParser.json());
 app.get('/', (request, response) => {
-response.send('Welcome to Palette Picker');
+  response.send('Welcome to Palette Picker');
 });
 
 // GET
@@ -109,11 +111,11 @@ app.delete('/api/v1/palettes/:id', (request, response) => {
   const { id } = request.params
   database('palettes').where("id", id).del()
     .then(() => { 
-      // if(!palette){
-      //   return response.status(404).send(`No data found with id of ${id}`);
-      // } else {
+      if (!palette) {
+        return response.status(404).send(`No data found with id of ${id}`);
+      } else {
         response.status(204).send(`Palette successfully deleted.`);
-      // }
+      }
     })
     .catch(() => response.sendStatus(500));
 });
@@ -125,11 +127,11 @@ app.delete('/api/v1/projects/:id', (request, response) => {
     .then(() => {
       database('projects').where("id", id).del()
         .then(() => {
-          // if(!project) {
-          //   return response.status(404).send(`No data found with id of ${id}`)
-          // } else {
+          if(!project) {
+            return response.status(404).send(`No data found with id of ${id}`)
+          } else {
           return response.status(204).send(`Palette successfully deleted.`)
-          // }
+          }
         })
         .catch(() => response.sendStatus(500))
       })
@@ -182,5 +184,8 @@ app.patch('/api/v1/palettes/:id', (request, response) => {
     .catch(() => response.sendStatus(500))
 });
 
+app.listen(app.get('port'), () => {
+  console.log(`Palette Picker is running on http://localhost:${app.get('port')}.`);
+});
 
 module.exports = app;
