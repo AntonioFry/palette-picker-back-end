@@ -5,14 +5,15 @@ const express = require('express');
 const app = express();
 // const bodyParser = require('body-parser');
 const cors = require('cors');
-const projectData = require('./data/projects')
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config();
-}
+// const projectData = require('./data/projects')
+// if (process.env.NODE_ENV !== 'production') {
+//   require('dotenv').config();
+// }
 
 // app.set('port', process.env.PORT || 3001)
 app.use(express.json());
 app.use(cors());
+app.use(express.static('public'))
 // app.use(bodyParser.json());
 app.get('/', (request, response) => {
   response.send('Welcome to Palette Picker');
