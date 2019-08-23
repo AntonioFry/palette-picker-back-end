@@ -1,7 +1,4 @@
-<h1 align="center">Welcome to Palette Picker 👋</h1>
-<p>
-  <img alt="Version" src="https://img.shields.io/badge/version-  -blue.svg?cacheSeconds=2592000" />
-</p>
+<h1 align="center">Welcome to 🌈Palette Picker </h1>
 
 ## Table of Contents
 * [Learning Goals](#Learning-Goals)
