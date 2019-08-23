@@ -208,6 +208,15 @@ ENDPOINT: /api/v1/projects
 
 EXAMPLE RESPONSE:
 
+```
+{
+    "id": 4,
+    "name": "Dog Party",
+    "created_at": "2019-08-23T20:40:26.309Z",
+    "updated_at": "2019-08-23T20:40:26.309Z"
+}
+```
+
 
 ### POST Palette
 
