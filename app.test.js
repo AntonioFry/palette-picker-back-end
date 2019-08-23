@@ -164,14 +164,16 @@ describe('App', () => {
     });
   
     describe('DELETE /api/v1/projects', () => {
-      it('Happy Path: return a status of 202', async () => {
+      it('Happy Path: return a status of 204', async () => {
         const projectId = await database('projects').first('id');
         const response = await request(app).delete(`/api/v1/projects/${projectId.id}`)
 
         expect(response.status).toBe(204)
       });
-      it('Sad Path: return a status of 404', () => {
-  
+      it('Sad Path: return a status of 404', async () => {
+        const response = await request(app).delete(`/api/v1/projects/6`)
+
+        expect(response.status).toBe(404)
       });
     });
   
@@ -179,11 +181,13 @@ describe('App', () => {
       it('Happy Path: return a status of 200', async () => {
         const paletteId = await database('palettes').first('id');
         const response = await request(app).delete(`/api/v1/palettes/${paletteId.id}`)
-  
+
         expect(response.status).toBe(204)
       });
-      it('Sad Path: return a status of 404', () => {
-  
+      it('Sad Path: return a status of 404', async () => {
+        const response = await request(app).delete(`/api/v1/palettes/6`)
+
+        expect(response.status).toBe(404)
       });
     });
   
@@ -202,7 +206,7 @@ describe('App', () => {
 
         expect(project.name).toEqual(updatedProjects.name);
       });
-      it('Happy Path: return a status of 200', async () => {
+      it('Happy Path: return a status of 204', async () => {
         const updatedProjects = {
           name: "Dog Party",
         }
