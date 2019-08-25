@@ -206,7 +206,7 @@ METHOD: POST
 
 ENDPOINT: /api/v1/projects
 
-PARAMETERS: {'name': <String>}
+PARAMETERS: {name: <String>}
 
 EXAMPLE RESPONSE:
 
@@ -252,9 +252,13 @@ METHOD: PATCH
 
 ENDPOINT: /api/v1/projects/:id
 
-PARAMETERS: 
+PARAMETERS: {name: <String>}
 
-EXAMPLE RESPONSE:
+EXAMPLE RESPONSE: 
+
+```
+Project successfully updated
+```
 
 
 ### PATCH Palette
@@ -263,9 +267,13 @@ METHOD: PATCH
 
 ENDPOINT: /api/v1/palettes/:id
 
-PARAMETERS: 
+PARAMETERS: {project_id: <Number>, palette_name: <String>, color_1: <String>, color_2: <String>, color_3: <String>, color_4: <String>, color_5: <String>}
 
-EXAMPLE RESPONSE:
+EXAMPLE RESPONSE: 
+
+```
+Palette successfully updated
+```
 
 
 ### DELETE Project
