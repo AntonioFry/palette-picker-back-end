@@ -214,7 +214,7 @@ METHOD: POST
 
 ENDPOINT: /api/v1/projects
 
-PARAMETERS: 
+PARAMETERS: {'name': <String>}
 
 EXAMPLE RESPONSE:
 
@@ -234,9 +234,24 @@ METHOD: POST
 
 ENDPOINT: /api/v1/palettes
 
-PARAMETERS: 
+PARAMETERS: {project_id: <Number>, palette_name: <String>, color_1: <String>, color_2: <String>, color_3: <String>, color_4: <String>, color_5: <String>}
 
 EXAMPLE RESPONSE:
+
+```
+{
+    "id": 4,
+    "palette_name": "Dog Party",
+    "color_1": "#000000",
+    "color_2": "#000000",
+    "color_3": "#000000",
+    "color_4": "#000000",
+    "color_5": "#000000",
+    "project_id": 6,
+    "created_at": "2019-08-25T20:38:12.527Z",
+    "updated_at": "2019-08-25T20:38:12.527Z"
+}
+```
 
 
 ### PATCH Project
