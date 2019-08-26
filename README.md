@@ -1,7 +1,4 @@
-<h1 align="center">Welcome to Palette Picker 👋</h1>
-<p>
-  <img alt="Version" src="https://img.shields.io/badge/version-  -blue.svg?cacheSeconds=2592000" />
-</p>
+<h1 align="center">Welcome to 🌈Palette Picker </h1>
 
 ## Table of Contents
 * [Learning Goals](#Learning-Goals)
@@ -209,7 +206,18 @@ METHOD: POST
 
 ENDPOINT: /api/v1/projects
 
+PARAMETERS: {name: <String>}
+
 EXAMPLE RESPONSE:
+
+```
+{
+    "id": 4,
+    "name": "Dog Party",
+    "created_at": "2019-08-23T20:40:26.309Z",
+    "updated_at": "2019-08-23T20:40:26.309Z"
+}
+```
 
 
 ### POST Palette
@@ -218,7 +226,24 @@ METHOD: POST
 
 ENDPOINT: /api/v1/palettes
 
+PARAMETERS: {project_id: <Number>, palette_name: <String>, color_1: <String>, color_2: <String>, color_3: <String>, color_4: <String>, color_5: <String>}
+
 EXAMPLE RESPONSE:
+
+```
+{
+    "id": 4,
+    "palette_name": "Dog Party",
+    "color_1": "#000000",
+    "color_2": "#000000",
+    "color_3": "#000000",
+    "color_4": "#000000",
+    "color_5": "#000000",
+    "project_id": 6,
+    "created_at": "2019-08-25T20:38:12.527Z",
+    "updated_at": "2019-08-25T20:38:12.527Z"
+}
+```
 
 
 ### PATCH Project
@@ -227,7 +252,13 @@ METHOD: PATCH
 
 ENDPOINT: /api/v1/projects/:id
 
-EXAMPLE RESPONSE:
+PARAMETERS: {name: <String>}
+
+EXAMPLE RESPONSE: 
+
+```
+Project successfully updated
+```
 
 
 ### PATCH Palette
@@ -236,7 +267,13 @@ METHOD: PATCH
 
 ENDPOINT: /api/v1/palettes/:id
 
-EXAMPLE RESPONSE:
+PARAMETERS: {project_id: <Number>, palette_name: <String>, color_1: <String>, color_2: <String>, color_3: <String>, color_4: <String>, color_5: <String>}
+
+EXAMPLE RESPONSE: 
+
+```
+Palette successfully updated
+```
 
 
 ### DELETE Project
@@ -244,6 +281,8 @@ EXAMPLE RESPONSE:
 METHOD: DELETE
 
 ENDPOINT: /api/v1/projects/:id
+
+PARAMETERS: 
 
 EXAMPLE RESPONSE:
 
@@ -253,6 +292,8 @@ EXAMPLE RESPONSE:
 METHOD: DELETE
 
 ENDPOINT: /api/v1/palettes/:id
+
+PARAMETERS: 
 
 EXAMPLE RESPONSE:
 
