@@ -3,18 +3,12 @@ const configuration = require('./knexfile')[enviroment];
 const database = require('knex')(configuration);
 const express = require('express');
 const app = express();
-// const bodyParser = require('body-parser');
 const cors = require('cors');
-// const projectData = require('./data/projects')
-// if (process.env.NODE_ENV !== 'production') {
-//   require('dotenv').config();
-// }
 
-// app.set('port', process.env.PORT || 3001)
+app.set('port', process.env.PORT || 3001)
 app.use(express.json());
 app.use(cors());
 app.use(express.static('public'))
-// app.use(bodyParser.json());
 app.get('/', (request, response) => {
   response.send('Welcome to Palette Picker');
 });
@@ -74,20 +68,25 @@ app.get('/api/v1/projects/:id', (request, response) => {
 // POST
 
 app.post('/api/v1/palettes', (request, response) => {
-  const palette = request.body;
-  console.log(palette)
+  const { palette, projectName } = request.body;
   const required = ['palette_name', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5'];
   for (let param of required) {
     if (!palette[param]) {
       return response.status(422).send(`Expected format: {palette_name: <String>, color_1: <String>, color_2: <String>, color_3: <String>, color_4: <String>, color_5: <String>}, but you are missing the ${param} parameter`)
     }
   };
-  database('palettes').insert(palette, 'id')
-    .then((paletteId) => {
-      response.status(201).json(paletteId);
-    })
+  database('projects').where('name', projectName)
+    .then((project) => {
+      database('palettes').insert({...palette, project_id: project[0].id }, 'id')
+        .then((paletteId) => {
+          response.status(201).json(paletteId);
+        })
+        .catch(() => {
+          response.sendStatus(500);
+        })
+      })
     .catch(() => {
-      response.sendStatus(500);
+      response.sendStatus(500)
     })
 })
 
@@ -139,7 +138,6 @@ app.delete('/api/v1/projects/:id', (request, response) => {
         .catch(() => response.sendStatus(500))
       })
     .catch((error) => {
-      console.log(error.message)
       response.sendStatus(500)
     })
 });
@@ -188,8 +186,8 @@ app.patch('/api/v1/palettes/:id', (request, response) => {
     .catch(() => response.sendStatus(500))
 });
 
-// app.listen(app.get('port'), () => {
-//   console.log(`Palette Picker is running on http://localhost:${app.get('port')}.`);
-// });
+app.listen(app.get('port'), () => {
+  console.log(`Palette Picker is running on http://localhost:${app.get('port')}.`);
+});
 
 module.exports = app;
