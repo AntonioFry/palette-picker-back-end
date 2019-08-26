@@ -120,34 +120,28 @@ describe('App', () => {
     describe('POST /api/v1/palettes', () => {
       it('should post a new palette', async () => {
         const newPalette = {
-          palette: {
-            palette_name: "Plain Colors",
-            color_1: "#800000",
-            color_2: "#FC1501",
-            color_3: "#F87531",
-            color_4: "#FF8000",
-            color_5: "#FFCC11"
-          },
-          projectName: 'Whateverly'
+          palette_name: "Plain Colors",
+          color_1: "#800000",
+          color_2: "#FC1501",
+          color_3: "#F87531",
+          color_4: "#FF8000",
+          color_5: "#FFCC11"
         }
 
         const response = await request(app).post('/api/v1/palettes').send(newPalette);
         const palettes = await database('palettes').where('id', response.body[0]).select();
         const palette = palettes[0];
 
-        expect(palette.palette_name).toEqual(newPalette.palette.palette_name);
+        expect(palette.palette_name).toEqual(newPalette.palette_name);
       });
       it('Happy Path: return a status of 201', async () => {
         const newPalette = {
-          palette: {
             palette_name: "Plain Colors",
             color_1: "#800000",
             color_2: "#FC1501",
             color_3: "#F87531",
             color_4: "#FF8000",
             color_5: "#FFCC11"
-          },
-          projectName: 'Whateverly'
         }
 
         const response = await request(app).post('/api/v1/palettes').send(newPalette);
@@ -156,14 +150,11 @@ describe('App', () => {
       });
       it('Sad Path: return a status of 422', async () => {
         const newPalette = {
-          palette: {
             palette_name: "Plain Colors",
             color_1: "#800000",
             color_2: "#FC1501",
             color_4: "#FF8000",
             color_5: "#FFCC11"
-          },
-          projectName: 'Whateverly'
         }
 
         const response = await request(app).post('/api/v1/palettes').send(newPalette);
