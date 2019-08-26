@@ -5,7 +5,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 
-app.set('port', process.env.PORT || 3001)
+// app.set('port', process.env.PORT || 3001)
 app.use(express.json());
 app.use(cors());
 app.use(express.static('public'))
@@ -186,8 +186,8 @@ app.patch('/api/v1/palettes/:id', (request, response) => {
     .catch(() => response.sendStatus(500))
 });
 
-app.listen(app.get('port'), () => {
-  console.log(`Palette Picker is running on http://localhost:${app.get('port')}.`);
-});
+// app.listen(app.get('port'), () => {
+//   console.log(`Palette Picker is running on http://localhost:${app.get('port')}.`);
+// });
 
 module.exports = app;
