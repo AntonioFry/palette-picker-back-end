@@ -30,7 +30,7 @@ app.get('/api/v1/palettes/:id', (request, response) => {
   const { id } = request.params;
   database('palettes').where("id", id)
     .then(palette => {
-      if (!palette){
+      if(!palette){
         return response.status(404).send(`No data found with id of ${id}`);
       } else {
         return response.status(200).json(palette);
@@ -67,19 +67,25 @@ app.get('/api/v1/projects/:id', (request, response) => {
 // POST
 
 app.post('/api/v1/palettes', (request, response) => {
-  const palette = request.body;
+  const { palette, projectName } = request.body;
   const required = ['palette_name', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5'];
   for (let param of required) {
     if (!palette[param]) {
       return response.status(422).send(`Expected format: {palette_name: <String>, color_1: <String>, color_2: <String>, color_3: <String>, color_4: <String>, color_5: <String>}, but you are missing the ${param} parameter`)
     }
   };
-  database('palettes').insert(palette, 'id')
-    .then((paletteId) => {
-      response.status(201).json(paletteId);
-    })
-    .catch((error) => {
-      response.sendStatus(500);
+  database('projects').where('name', projectName)
+    .then((project) => {
+      database('palettes').insert({...palette, project_id: project[0].id }, 'id')
+        .then((paletteId) => {
+          response.status(201).json(paletteId);
+        })
+        .catch(() => {
+          response.sendStatus(500);
+        })
+      })
+    .catch(() => {
+      response.sendStatus(500)
     })
 })
 
