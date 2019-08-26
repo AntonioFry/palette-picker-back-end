@@ -30,7 +30,7 @@ app.get('/api/v1/palettes/:id', (request, response) => {
   const { id } = request.params;
   database('palettes').where("id", id)
     .then(palette => {
-      if(!palette){
+      if (!palette){
         return response.status(404).send(`No data found with id of ${id}`);
       } else {
         return response.status(200).json(palette);
