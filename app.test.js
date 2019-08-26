@@ -200,7 +200,7 @@ describe('App', () => {
       });
     });
   
-    describe('PATCH /api/v1/project/:id', () => {
+    describe('PATCH /api/v1/projects/:id', () => {
       it('should update a project', async () => {
         const updatedProjects = {
           name: "Dog Party",
