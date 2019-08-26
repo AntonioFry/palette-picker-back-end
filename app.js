@@ -72,9 +72,10 @@ app.get('/api/v1/projects/:id', (request, response) => {
 
 app.post('/api/v1/palettes', (request, response) => {
   const palette = request.body;
+  console.log(palette)
   const required = ['project_id', 'palette_name', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5'];
   for (let param of required) {
-    if (!palette[required]) {
+    if (!palette[param]) {
       return response.status(422).send(`Expected format: {project_id: <Number>, palette_name: <String>, color_1: <String>, color_2: <String>, color_3: <String>, color_4: <String>, color_5: <String>}, but you are missing the ${param} parameter`)
     }
   }
@@ -139,15 +140,16 @@ app.patch('/api/v1/projects/:id', (request, response) => {
   const required = ['name'];
   
   for (let param of required) {
+    if (!palette[param]) {
 			return response.status(422).send(`Expected format: ${required}. You are missing ${param}.`);
   }
-  
+}
   database('projects').where("id", id).update(project)
   .then(project => {
     if (!project) {
       response.status(404).send('No data found')
     } else {
-      response.status(200).send('Project successfully updated')
+      response.status(200).send('Palette successfully updated')
     }
   })
   .catch(() => response.sendStatus(500))
@@ -158,7 +160,7 @@ app.patch('/api/v1/palettes/:id', (request, response) => {
     const palette = request.body
     const required = ['project_id','palette_name', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5'];
     for(let param of required){
-      if (!palette[required]) {
+      if (!palette[param]) {
         return response.status(422).send(`Expected format: {project_id: <Number>, palette_name: <String>, color_1: <String>, color_2: <String>, color_3: <String>, color_4: <String>, color_5: <String>}, but you are missing the ${param} parameter`)
       }
     }
