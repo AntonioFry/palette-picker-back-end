@@ -282,8 +282,6 @@ METHOD: DELETE
 
 ENDPOINT: /api/v1/projects/:id
 
-PARAMETERS: 
-
 EXAMPLE RESPONSE:
 
 
@@ -291,9 +289,7 @@ EXAMPLE RESPONSE:
 
 METHOD: DELETE
 
-ENDPOINT: /api/v1/palettes/:id
-
-PARAMETERS: 
+ENDPOINT: /api/v1/palettes/:id 
 
 EXAMPLE RESPONSE:
 
