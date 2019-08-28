@@ -284,6 +284,11 @@ ENDPOINT: /api/v1/projects/:id
 
 EXAMPLE RESPONSE:
 
+```
+Project successfully deleted
+
+```
+
 
 ### DELETE Palette
 
@@ -292,6 +297,11 @@ METHOD: DELETE
 ENDPOINT: /api/v1/palettes/:id 
 
 EXAMPLE RESPONSE:
+
+```
+Palette successfully deleted
+
+```
 
 ## Developers
 
