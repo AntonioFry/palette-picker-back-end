@@ -1,4 +1,4 @@
-<h1 align="center">Welcome to 🌈Palette Picker </h1>
+<h1 align="center">Welcome to 🎨 Palette Picker 🖌</h1>
 
 ## Table of Contents
 * [Learning Goals](#Learning-Goals)
@@ -206,7 +206,7 @@ METHOD: POST
 
 ENDPOINT: /api/v1/projects
 
-PARAMETERS: {name: <String>}
+PARAMETERS: {name: "<String>"}
 
 EXAMPLE RESPONSE:
 
@@ -252,7 +252,7 @@ METHOD: PATCH
 
 ENDPOINT: /api/v1/projects/:id
 
-PARAMETERS: {name: <String>}
+PARAMETERS: {name: "<String>"}
 
 EXAMPLE RESPONSE: 
 
