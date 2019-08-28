@@ -271,7 +271,9 @@ PARAMETERS: {project_id: <Number>, palette_name: <String>, color_1: <String>, co
 
 EXAMPLE RESPONSE: 
 
-```Palette successfully updated```
+```
+Palette successfully updated
+```
 
 
 ### DELETE Project
@@ -282,7 +284,9 @@ ENDPOINT: /api/v1/projects/:id
 
 EXAMPLE RESPONSE:
 
-```Project successfully deleted```
+```
+Project successfully deleted
+```
 
 
 ### DELETE Palette
@@ -293,7 +297,9 @@ ENDPOINT: /api/v1/palettes/:id
 
 EXAMPLE RESPONSE:
 
-```Palette successfully deleted```
+```
+Palette successfully deleted
+```
 
 ## Developers
 
