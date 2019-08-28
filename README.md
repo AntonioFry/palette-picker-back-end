@@ -39,11 +39,14 @@ The second focus for this project is developing professional-level workflow habi
 
 ## Challenges
 
+The developers had developed frontend applications and backend applications, but had never before combined backend and frontend. Although it was not challenging, there was a learning curve to overcome. The biggest challenge was understanding how to incorporate the datatable information and format into the frontend.
+
 ## Successes
+
+The biggest success was rendering the randomly generated colors and saving the palettes with their associated projects on the backend. The database creates the correct relationships between data pieces and delivers them at the correct endpoints via frontend fetches.
 
 ## Tech Stack
 
-* React
 * Express
 * Knex
 * Node.js
